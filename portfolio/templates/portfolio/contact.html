@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact</title>
+    <!-- Add your Bootstrap or custom CSS -->
+    <link rel="stylesheet" href="{% static 'portfolio/css/bootstrap.min.css' %}">
+</head>
+<body>
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="main-title">
+                <h2>Contact Me</h2>
+                <span>08.</span>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="contact-boxes">
+                        <div class="contact-box">
+                            <div class="title-box">
+                                <h4>Location
+                                    <span class="icon-box"><i class="fa fa-map-marker"></i></span>
+                                </h4>
+                            </div>
+                            <div class="content-box">
+                                <p>Nairobi, Kenya</p>
+                                <p>Utawala</p>
+                            </div>
+                        </div>
+                        <div class="contact-box">
+                            <div class="title-box">
+                                <h4>Email
+                                    <span class="icon-box"><i class="fa fa-envelope"></i></span>
+                                </h4>
+                            </div>
+                            <div class="content-box">
+                                <p>georgerubinga@gmail.com</p>
+                                <p>otherme6223@gmail.com</p>
+                            </div>
+                        </div>
+                        <div class="contact-box">
+                            <div class="title-box">
+                                <h4>Phone
+                                    <span class="icon-box"><i class="fa fa-phone"></i></span>
+                                </h4>
+                            </div>
+                            <div class="content-box">
+                                <p>+254725717270</p>
+                                <p>+254728272483</p>
+                            </div>
+                        </div>
+                        <div class="contact-box">
+                            <div class="title-box">
+                                <h4>Website
+                                    <span class="icon-box"><i class="fa fa-globe"></i></span>
+                                </h4>
+                            </div>
+                            <div class="content-box">
+                                <p>www.yourdomain.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Section -->
+                <div class="col-sm-8">
+                    <form class="contact-form" action="{% url 'contact' %}" method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            {{ form.name.label_tag }}
+                            {{ form.name }}
+                            <span class="input-border"></span>
+                        </div>
+                        <div class="form-group">
+                            {{ form.email.label_tag }}
+                            {{ form.email }}
+                            <span class="input-border"></span>
+                        </div>
+                        <div class="form-group">
+                            {{ form.subject.label_tag }}
+                            {{ form.subject }}
+                            <span class="input-border"></span>
+                        </div>
+                        <div class="form-group">
+                            {{ form.message.label_tag }}
+                            {{ form.message }}
+                            <span class="input-border"></span>
+                        </div>
+                        <!-- Button Send Message -->
+                        <button class="contact-btn main-btn btn btn-block" type="submit">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="footer text-center">
+        <div class="container">
+            <a class="logo" href="#"><span>G</span>Rubinga</a>
+            <ul class="footer-social-icons list-unstyled">
+                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                <li><a href="#"><i class="fa fa-behance"></i></a></li>
+                <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
+                <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+            </ul>
+            <div class="copyright">
+                <p>All Right Reserved &copy; 2023 <a href="#" target="_blank">Klaustech designs</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <a href="#" class="scroll-top">
+        <i class="fa fa-angle-up"></i>
+    </a>
+
+    <!-- Scripts -->
+    <script src="{% static 'portfolio/js/bootstrap.min.js' %}"></script>
+</body>
+</html>

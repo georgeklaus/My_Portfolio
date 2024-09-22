@@ -1,0 +1,836 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="George - One Page Creative Portfolio Template">
+        <meta name="keywords" content="Html, Css, jQuery, JavaScript, George, onepage, personal, Portfolio, design, creative, template">
+       
+        <!-- Title -->
+        <title>George - One Page Creative Portfolio Template</title>
+        <!-- Favicon --> 
+        <link rel="icon" href="{% static 'portfolio/images/icon.png' %}">
+        <!-- Google Fonts -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400,600,800">
+               
+       <!-- Font Awesome Css -->
+       <link rel="stylesheet" href="{% static 'portfolio/css/font-awesome.min.css' %}">
+       <!-- Magnific css -->
+       <link rel="stylesheet" href="{% static 'portfolio/css/magnific-popup.css' %}">
+       <!-- Bootstrap Css -->
+       <link rel="stylesheet" href="{% static 'portfolio/css/bootstrap.min.css' %}">
+       <!-- Owl Carousel Css -->
+       <link rel="stylesheet" href="{% static 'portfolio/css/owl.carousel.min.css' %}">
+       <link rel="stylesheet" href="{% static 'portfolio/css/owl.theme.default.min.css' %}">
+       <!-- Animate Css -->
+       <link rel="stylesheet" href="{% static 'portfolio/css/animate.min.css' %}">
+       <!-- Main Style Css -->
+       <link rel="stylesheet" href="{% static 'portfolio/css/main.css' %}">
+       
+       <!--[if lt IE 9]>
+       <script src="{% static 'portfolio/js/html5shiv.min.js' %}"></script>
+       <script src="{% static 'portfolio/js/respond.min.js' %}"></script>
+       <![endif]-->
+       
+    </head>
+    <body>
+        
+        <!-- ========== Start Loading ========== -->
+        
+        <div class="preloader">
+            <div class="loading-overlay">
+                <div class="loading-inner">
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== End Loading ========== -->
+        
+        <!-- ========== Start Navbar ========== -->
+        
+        <nav class="navbar navbar-default ">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button class="menu-toggle">
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </button>
+                    <!-- logo -->
+                    <a class="navbar-brand" href="#"><span>G</span>eorge</a>
+                </div>
+                <!-- Collect the nav links, and other content for toggling -->
+                <div class="navbar-links" id="ournavbar">
+                    <!-- links -->
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="nav-brand text-center visible-xs-block"><a href="#"><span>G</span>eorge</a></li>
+                        <li><a class="active" href="#" data-value="#home" data-name="Home">Home</a></li>
+                        <li><a href="#" data-value="#about" data-name="About">About</a></li>
+                        <li><a href="#" data-value="#services" data-name="Services">Services</a></li>
+                        <li><a href="#" data-value="#resume" data-name="Resume">Resume</a></li>
+                        <li><a href="#" data-value="#portfolio" data-name="Portfolio">Portfolio</a></li>
+                        <li><a href="#" data-value="#blog" data-name="Blog">Blog</a></li>
+                        <li><a href="#" data-value="#contact" data-name="Contact">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- ========== End Navbar ========== -->
+        
+        <!-- ========== Start Home ========== -->
+
+        <section class="home" id="home">
+            <div class="overlay">
+                <div class="container">
+                    <div class="intro display-table">
+                        <div class="display-table-cell">
+                            <h3>Hey, My name is</h3>
+                            <h1>George R Muthike</h1>
+                            <p>A Freelance Web <span></span></p>
+                            <div class="my-btn">
+                                <a href="#" class="main-btn">Hire Me</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="arrow">
+                        <a href="#about">Discover</a>
+                    </div>
+                </div>
+            </div> 
+        </section>
+        
+        <!-- ========== End Home ========== -->
+        
+        <!-- ========== Start About Me ========== -->
+    
+        <section class="about-me" id="about">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-5 col-md-6">
+                        <div class="about-image">
+                            <img class="img-responsive" src="{% static 'portfolio/images/about.jpg' %}" alt="">
+                        </div>
+                    </div>
+                    <div class="col-lg-7 col-md-6">
+                        <div class="about-info">
+                            <div class="main-title">
+                                <h2>About Me</h2>
+                                <span>01.</span>
+                            </div>
+                            <h3>Hello! I am George R Muthike</h3>
+                            <p>I'm a Freelance Web Designer &amp; Developer based in Nairobi, Kenya, and I'm very passionate and dedicated to my work .With 3 years experience as a professional Web Designer &amp; Developer, I have acquired the skills necessary to build great and premium websites.</p>
+                            <div class="personal-info">
+                                <p><span><i class="fa fa-user"></i></span>George R Muthike</p>
+                                <p><span><i class="fa fa-phone"></i></span>+254725717270</p>
+                                <p><span><i class="fa fa-envelope"></i></span>georgerubinga@gmail.com</p>
+                                <p><span><i class="fa fa-map-marker"></i></span>Nairobi, Kenya</p>
+                                <div class="social-media">
+                                    <span>
+                                        <a href="#"><i class="fa fa-facebook"></i></a>
+                                        <a href="#"><i class="fa fa-twitter"></i></a>
+                                        <a href="#"><i class="fa fa-behance"></i></a>
+                                        <a href="#"><i class="fa fa-dribbble"></i></a>
+                                        <a href="#"><i class="fa fa-linkedin"></i></a>
+                                    </span>
+                                </div>
+                            </div>
+                            <a href="#" class="main-btn">Download CV</a>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </section>
+        
+        <!-- ========== End About Me ========== -->
+        
+        <!-- ========== Start Services ========== -->
+        
+        <section class="services" id="services">
+            <div class="container">
+                <div class="main-title">
+                    <h2>My Services</h2>
+                    <span>02.</span>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 col-sm-6">
+                        <div class="service wow fadeInRight" data-wow-duration="1.7s">
+                            <div class="service-icon">
+                                <i class="fa fa-pencil fa-lg"></i>
+                            </div>
+                            <h4>Creative Design</h4>
+                            <p>I create Amazing Designs.</p>
+                            <div class="service-number">01.</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="service wow fadeInRight" data-wow-duration="1.7s">
+                            <div class="service-icon">
+                                <i class="fa fa-flag fa-lg"></i>
+                            </div>
+                            <h4>Branding</h4>
+                            <p>I am the best at branding.</p>
+                            <div class="service-number">02.</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="service wow fadeInRight" data-wow-duration="1.7s">
+                            <div class="service-icon">
+                                <i class="fa fa-code fa-lg"></i>
+                            </div>
+                            <h4>Clean Code</h4>
+                            <p>I am a professional code cleaner.</p>
+                            <div class="service-number">03.</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="service wow fadeInRight" data-wow-duration="1.7s">
+                            <div class="service-icon">
+                                <i class="fa fa-support fa-lg"></i>
+                            </div>
+                            <h4>Fast Support</h4>
+                            <p>I perform this perfectly.</p>
+                            <div class="service-number">04.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- ========== End Services ========== -->
+        
+        <!-- ========== Start Resume ========== -->
+        
+        <section class="resume" id="resume">
+            <div class="container">
+                <div class="main-title">
+                    <h2>My Resume</h2>
+                    <span>03.</span>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="education">
+                            <div class="resume-item">
+                                <div class="resume-date">
+                                    2007 - 2011
+                                    <i class="fa fa-graduation-cap"></i>
+                                </div>
+                                <span>Information Technology</span>
+                                <h4>Multimedia University of Kenya</h4>
+                                <p>I did a degree in Bachelor of science in Information Technology at Multimedia University of Kenya for a duration of 4 years and graduated with a first class degree.</p>
+                            </div>
+                            <div class="resume-item">
+                                <div class="resume-date">
+                                    2011 - 2012
+                                    <i class="fa fa-graduation-cap"></i>
+                                </div>
+                                <span>Online writing</span>
+                                <h4>AIRANDS College</h4>
+                                <p>As an online writer from AIRANDS College, I specialize in crafting compelling and engaging digital content. With a strong grasp of research and storytelling, I produce well-structured articles, blog posts, and web copy that resonate with audiences. My work is driven by creativity and a dedication to delivering clear, impactful messages in the online space.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="experience">
+                            <div class="resume-item">
+                                <div class="resume-date">
+                                    2012 - 2015
+                                    <i class="fa fa-suitcase"></i>
+                                </div>
+                                <span>UI/UX Designer</span>
+                                <h4>Powerlearn academy</h4>
+                                <p>As a UI/UX Designer from Powerlearn Academy, I focus on creating user-centered designs that prioritize functionality and aesthetics. With a keen eye for detail and a passion for enhancing user experiences, I combine technical skills with creativity to craft intuitive and visually appealing interfaces that drive engagement and satisfaction.</p>
+                            </div>
+                            <div class="resume-item">
+                                <div class="resume-date">
+                                    2015 - 2019
+                                    <i class="fa fa-suitcase"></i>
+                                </div>
+                                <span>Web Developer</span>
+                                <h4>Harvard University</h4>
+                                <p>As a web developer from Harvard University, I bring a strong foundation in both computer science and business, blending technical expertise with strategic thinking. My projects reflect a deep understanding of web technologies, user experience, and modern design trends, allowing me to create innovative, scalable solutions tailored to client needs.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- ========== End Resume ========== -->
+        
+        <!-- ========== Start Skills ========== -->
+        
+        <section class="skills">
+            <div class="container">
+                <div class="main-title">
+                    <h2>My Skills</h2>
+                    <span>04.</span>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="skills-left">
+                            <h4>Some About my Abilities</h4>
+                            <p>I possess a strong command of web development languages, including HTML5, CSS, JavaScript, and PHP, allowing me to build dynamic and responsive websites. My abilities extend beyond technical skills, with effective communication, teamwork, and self-motivation being key strengths. I thrive in fast-paced environments, delivering high-quality work with speed and efficiency while maintaining attention to detail.</p>
+                            <a href="#portfolio" class="main-btn">My Portfolio</a>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="skills-list">
+                            <h3 class="list-item active">
+                                <a href="#pro-skills">Professional Skills</a>
+                            </h3>
+                            <h3 class="list-item">
+                                <a href="#perso-skills">Personal Skills</a>
+                            </h3>
+                        </div>
+                        <div class="skills-content">
+                            <div class="professional-skills" id="pro-skills">
+                                <h3>Professional Skills</h3>
+                                <div class="progress-container">
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <h4>Html5 &amp; Css3<span class="percent">95%</span></h4>
+                                    </div>
+                                </div>
+                                <div class="progress-container">
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <h4>JavaScript<span class="percent">78%</span></h4>
+                                    </div>
+                                </div>
+                                <div class="progress-container">
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <h4>Php<span class="percent">89%</span></h4>
+                                    </div>
+                                </div>
+                                <div class="progress-container">
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <h4>Wordpress<span class="percent">80%</span></h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="personal-skills" id="perso-skills">
+                                <h3>Personal Skills</h3>
+                                <div class="progress-container">
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <h4>Communication<span class="percent">85%</span></h4>
+                                    </div>
+                                </div>
+                                <div class="progress-container">
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <h4>Teamwork<span class="percent">80%</span></h4>
+                                    </div>
+                                </div>
+                                <div class="progress-container">
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <h4>Self-motivation<span class="percent">75%</span></h4>
+                                    </div>
+                                </div>
+                                <div class="progress-container">
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <h4>Speed<span class="percent">70%</span></h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>           
+                </div>
+            </div>
+        </section>
+        
+        <!-- ========== End Skills ========== -->
+        
+        <!-- ========== Start Portfolio ========== -->
+        
+        <section class="portfolio" id="portfolio">
+            <div class="container">
+                <div class="main-title">
+                    <h2>My Portfolio</h2>
+                    <span>05.</span>
+                </div>
+                <div class="filter-menu">
+                    <ul id="control" class="list-filter list-unstyled">
+                        <li class="active" data-filter="all">All</li>
+                        <li data-filter="1">Web Design</li>
+                        <li data-filter="2">Graphic Design</li>
+                        <li data-filter="3">Branding</li>
+                    </ul>
+                </div>
+                <div class="portfolio-content">
+                    <div id="filtr-container" class="row">
+                        <div class="col-md-4 col-sm-6 filtr-item" data-category="1" data-sort="value">
+                            <div class="item">
+                                <img class="img-responsive" src="{% static 'portfolio/images/portfolio/item-1.jpg' %}" alt="">
+                                <div class="overlay">
+                                    <a class="icon-img" href="{% static 'portfolio/images/portfolio/item-1.jpg' %}"><i class="fa fa-search-plus"></i></a>
+                                    <h4 class="item-title">Project Title</h4>
+                                    <div class="item-category">
+                                        <span>Web Design</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6 filtr-item" data-category="2" data-sort="value">
+                            <div class="item">
+                                <img class="img-responsive" src="{% static 'portfolio/images/portfolio/item-2.jpg' %}" alt="">
+                                <div class="overlay">
+                                    <a class="icon-img" href="{% static 'portfolio/images/portfolio/item-2.jpg' %}"><i class="fa fa-search-plus"></i></a>
+                                    <h4 class="item-title">Project Title</h4>
+                                    <div class="item-category">
+                                        <span>Graphic Design</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6 filtr-item" data-category="3" data-sort="value">
+                            <div class="item">
+                                <img class="img-responsive" src="{% static 'portfolio/images/portfolio/item-3.jpg' %}" alt="">
+                                <div class="overlay">
+                                    <a class="icon-img" href="{% static 'portfolio/images/portfolio/item-3.jpg' %}"><i class="fa fa-search-plus"></i></a>
+                                    <h4 class="item-title">Project Title</h4>
+                                    <div class="item-category">
+                                        <span>Branding</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6 filtr-item" data-category="1" data-sort="value">
+                            <div class="item">
+                                <img class="img-responsive" src="{% static 'portfolio/images/portfolio/item-4.jpg' %}" alt="">
+                                <div class="overlay">
+                                    <a class="icon-img" href="{% static 'portfolio/images/portfolio/item-4.jpg' %}"><i class="fa fa-search-plus"></i></a>
+                                    <h4 class="item-title">Project Title</h4>
+                                    <div class="item-category">
+                                        <span>Web Design</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6 filtr-item" data-category="2" data-sort="value">
+                            <div class="item">
+                                <img class="img-responsive" src="{% static 'portfolio/images/portfolio/item-5.jpg' %}" alt="">
+                                <div class="overlay">
+                                    <a class="icon-img" href="{% static 'portfolio/images/portfolio/item-5.jpg' %}"><i class="fa fa-search-plus"></i></a>
+                                    <h4 class="item-title">Project Title</h4>
+                                    <div class="item-category">
+                                        <span>Research paper</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6 filtr-item" data-category="3" data-sort="value">
+                            <div class="item">
+                                <img class="img-responsive" src="{% static 'portfolio/images/portfolio/item-6.jpg' %}" alt="">
+                                <div class="overlay">
+                                    <a class="icon-img" href="{% static 'portfolio/images/portfolio/item-6.jpg' %}"><i class="fa fa-search-plus"></i></a>
+                                    <h4 class="item-title">Project Title</h4>
+                                    <div class="item-category">
+                                        <span>Branding</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- ========== End Portfolio ========== -->
+        
+        <!-- ========== Start Fun Facts ========== -->
+        
+        <section class="facts">
+            <div class="overlay"></div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 col-sm-6">
+                        <div class="fact-item wow fadeInLeft" data-wow-duration="1.7s">
+                            <h4><span class="fact-icon"><i class="fa fa-code"></i></span>projects Done</h4>
+                            <span class="fact-number" data-from="0" data-to="500" data-speed="2500"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="fact-item wow fadeInLeft" data-wow-duration="1.7s">
+                            <h4><span class="fact-icon"><i class="fa fa-users"></i></span>Happy Clients</h4>
+                            <span class="fact-number" data-from="0" data-to="440" data-speed="2500"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="fact-item wow fadeInLeft" data-wow-duration="1.7s">
+                            <h4><span class="fact-icon"><i class="fa fa-clock-o"></i></span>Hours Of Work</h4>
+                            <span class="fact-number" data-from="0" data-to="2800" data-speed="2500"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="fact-item wow fadeInLeft" data-wow-duration="1.7s">
+                            <h4><span class="fact-icon"><i class="fa fa-coffee"></i></span>Coffee Cups</h4>
+                            <span class="fact-number" data-from="0" data-to="150" data-speed="2500"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- ========== End Fun Facts ========== -->
+        
+        <!-- ========== Start Testimonials ========== -->
+        
+        <section id="testimonials" class="testimonials">
+            <div class="container">
+                <div class="main-title">
+                    <h2>Testimonials</h2>
+                    <span>06.</span>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 owl-carousel owl-theme">
+                        <!-- New Item -->
+                        <div class="testimonial-box">
+                            <div class="description">
+                                <span class="quote-left"><i class="fa fa-quote-left"></i></span>
+                                <span class="quote-right"><i class="fa fa-quote-right"></i></span>
+                                <p>Working with George was a great experience. His expertise in web development, attention to detail, and ability to solve complex issues made every project seamless. A truly skilled professional.</p>
+                            </div>
+                            <div class="client-pic">
+                                <img src="{% static 'portfolio/images/testimonials/5.jpg' %}" alt="client">
+                            </div>
+                            <div class="client-details">
+                                <h6> Dennis Githinji </h6>
+                                <span>Web Developer</span>
+                            </div>
+                        </div>
+                        <!-- New Item -->
+                        <div class="testimonial-box">
+                             <div class="description">
+                                <span class="quote-left"><i class="fa fa-quote-left"></i></span>
+                                <span class="quote-right"><i class="fa fa-quote-right"></i></span>
+                                <p>Rubinga is an exceptional collaborator. His understanding of web development paired with SEO best practices has greatly improved site performance and visibility. He is proactive and detail-oriented.</p>
+                            </div>
+                            <div class="client-pic">
+                                <img src="{% static 'portfolio/images/testimonials/7.jpg' %}" alt="client">
+                            </div>
+                            <div class="client-details">
+                                <h6> Cynthia Kendi </h6>
+                                <span>SEO Manager</span>
+                            </div>
+                        </div>
+                        <!-- New Item -->
+                        <div class="testimonial-box">
+                            <div class="description">
+                                <span class="quote-left"><i class="fa fa-quote-left"></i></span>
+                                <span class="quote-right"><i class="fa fa-quote-right"></i></span>
+                                <p>Creative and versatile, George consistently delivers engaging and well-researched content. His writing always strikes the right tone, whether for technical documentation or client-focused articles.</p>
+                            </div>
+                            <div class="client-pic">
+                                <img src="{% static 'portfolio/images/testimonials/8.jpg' %}" alt="client">
+                            </div>
+                            <div class="client-details">
+                                <h6> Justin Kanyi </h6>
+                                <span>Online writer</span>
+                            </div>
+                        </div>
+                        <!-- New Item -->
+                        <div class="testimonial-box">
+                            <div class="description">
+                                <span class="quote-left"><i class="fa fa-quote-left"></i></span>
+                                <span class="quote-right"><i class="fa fa-quote-right"></i></span>
+                                <p>G's technical proficiency is outstanding. His consistently deliver high-quality, responsive websites while keeping up with the latest web development trends. His problem-solving skills are second to none.</p>
+                            </div>
+                            <div class="client-pic">
+                                <img src="{% static 'portfolio/images/testimonials/4.jpg' %}" alt="client">
+                            </div>
+                            <div class="client-details">
+                                <h6>Claire Gitonga</h6>
+                                <span>Web Developer</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- ========== End Testimonials ========== -->
+        
+        <!-- ========== Start Blog ========== -->
+        
+        <section class="blog" id="blog">
+            <div class="container">
+                <div class="main-title">
+                    <h2>My Blog</h2>
+                    <span>07.</span>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- New Item -->
+                        <div class="post wow fadeInLeft" data-wow-duration="1.7s">
+                            <!-- Post Image -->
+                            <div class="post-img">
+                                <img src="{% static 'portfolio/images/blog/1.jpg' %}" class="img-responsive" alt="">
+                            </div>
+                            <!-- Post Content -->
+                            <div class="post-content">
+                                <div class="post-title">
+                                    <a href="#"><h4>The Power of Minimalism in Modern Web Design</h4></a>
+                                </div>
+                                <ul class="post-info list-unstyled">
+                                    <li>
+                                        <i class="fa fa-calendar"></i>
+                                        <span>10 Jan 24</span>
+                                    </li>
+                                     <li>
+                                        <i class="fa fa-commenting-o"></i>
+                                        <a href="#"><span>234 Comments</span></a>
+                                    </li>
+                                </ul>
+                                <div class="post-text">
+                                    <p>In today’s fast-paced digital world, minimalism has become a key trend in web design. Stripping away unnecessary elements not only creates a clean and professional look but also improves user experience by focusing on what matters most....</p>
+                                </div>
+                                <div class="post-footer">
+                                    <a href="#" class="post-more">Read more <i class="fa fa-angle-double-right"></i></a>
+                                    <div class="post-category">
+                                        <a href="#">Web Design</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>  
+                    </div>
+                    <div class="col-md-12">
+                        <!-- New Item -->
+                        <div class="post wow fadeInRight" data-wow-duration="1.7s">
+                            <!-- Post Image -->
+                            <div class="post-img">
+                                <img src="{% static 'portfolio/images/blog/2.jpg' %}" class="img-responsive" alt="">
+                            </div>
+                            <!-- Post Content -->
+                            <div class="post-content">
+                                <div class="post-title">
+                                    <a href="#"><h4>Crafting a Memorable Logo: The Essential Elements</h4></a>
+                                </div>
+                                <ul class="post-info list-unstyled">
+                                    <li>
+                                        <i class="fa fa-calendar"></i>
+                                        <span>18 Apr 24</span>
+                                    </li>
+                                     <li>
+                                        <i class="fa fa-commenting-o"></i>
+                                        <a href="#"><span>476 Comments</span></a>
+                                    </li>
+                                </ul>
+                                <div class="post-text">
+                                    <p>A logo is the face of your brand, often the first thing people notice. Designing a memorable logo goes beyond aesthetics—it requires balance between simplicity, uniqueness, and relevance to your business. A great logo...</p>
+                                </div>
+                                <div class="post-footer">
+                                    <a href="#" class="post-more">Read more <i class="fa fa-angle-double-right"></i></a>
+                                    <div class="post-category">
+                                        <a href="#">Logo</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <!-- New Item -->
+                        <div class="post wow fadeInLeft" data-wow-duration="1.7s">
+                            <!-- Post Image -->
+                            <div class="post-img">
+                                <img src="{% static 'portfolio/images/blog/3.jpg' %}" class="img-responsive" alt="">
+                            </div>
+                            <!-- Post Content -->
+                            <div class="post-content">
+                                <div class="post-title">
+                                    <a href="#"><h4>The Importance of Branding in Building a Strong Business Identity</h4></a>
+                                </div>
+                                <ul class="post-info list-unstyled">
+                                    <li>
+                                        <i class="fa fa-calendar"></i>
+                                        <span>26 Nov 23</span>
+                                    </li>
+                                     <li>
+                                        <i class="fa fa-commenting-o"></i>
+                                        <a href="#"><span>734 Comments</span></a>
+                                    </li>
+                                </ul>
+                                <div class="post-text">
+                                    <p>Branding goes far beyond just a logo or a catchy tagline; it encompasses every aspect of how your business is perceived by customers. A strong brand identity sets you apart from competitors and builds....</p>
+                                </div>
+                                <div class="post-footer">
+                                    <a href="#" class="post-more">Read more <i class="fa fa-angle-double-right"></i></a>
+                                    <div class="post-category">
+                                        <a href="#">Branding</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>         
+                </div>
+            </div>
+        </section>
+        
+        <!-- ========== End Blog ========== -->
+        
+  <!-- ========== Start Contact ========== --> 
+<section class="contact" id="contact">
+    <div class="container">
+        <div class="main-title">
+            <h2>Contact Me</h2>
+            <span>08.</span>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="contact-boxes">
+                    <div class="contact-box">
+                        <div class="title-box">
+                            <h4>Location
+                                <span class="icon-box"><i class="fa fa-map-marker"></i></span>
+                            </h4>
+                        </div>
+                        <div class="content-box">
+                            <p>Nairobi, Kenya</p>
+                            <p>Utawala</p>
+                        </div>
+                    </div>
+                    <div class="contact-box">
+                        <div class="title-box">
+                            <h4>Email
+                                <span class="icon-box"><i class="fa fa-envelope"></i></span>
+                            </h4>
+                        </div>
+                        <div class="content-box">
+                            <p>georgerubinga@gmail.com</p>
+                            <p>otherme6223@gmail.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-box">
+                        <div class="title-box">
+                            <h4>Phone
+                                <span class="icon-box"><i class="fa fa-phone"></i></span>
+                            </h4>
+                        </div>
+                        <div class="content-box">
+                            <p>+254725717270</p>
+                            <p>+254728272483</p>
+                        </div>
+                    </div>
+                    <div class="contact-box">
+                        <div class="title-box">
+                            <h4>Website
+                                <span class="icon-box"><i class="fa fa-globe"></i></span>
+                            </h4>
+                        </div>
+                        <div class="content-box">
+                            <p>www.yourdomain.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <form class="contact-form" action="{% url 'contact' %}" method="post">
+                    {% csrf_token %}
+                <div class="form-group">
+                        <input type="text" class="form-control" id="name" name="name" required value="" onkeyup="this.setAttribute('value', this.value);">
+                        <label for="name">Name</label>
+                        <span class="input-border"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" class="form-control" id="email" name="email" required value="" onkeyup="this.setAttribute('value', this.value);">
+                        <label for="email">Email</label>
+                        <span class="input-border"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="subject" name="subject" required value="" onkeyup="this.setAttribute('value', this.value);">
+                        <label for="subject">Subject</label>
+                        <span class="input-border"></span>
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" id="message" name="message" required data-value="" onkeyup="this.setAttribute('data-value', this.value);"></textarea>
+                        <label for="message">Your Message</label>
+                        <span class="input-border"></span>
+                    </div>
+                    <!-- Button Send Message  -->
+                    <button class="contact-btn main-btn btn btn-block" type="submit" name="send">Send Message</button>
+                    <!-- Form Message  -->
+                    <div class="form-message text-center"><span></span></div>
+                </form> 
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ========== End Contact ========== -->
+
+<!-- ========== Start Footer ========== -->
+<footer class="footer text-center" >
+    <div class="container">
+        <a class="logo" href="#"><span>G</span>Rubinga</a>
+        <ul class="footer-social-icons list-unstyled">
+            <li>
+                <a href="#">
+                    <i class="fa fa-facebook"></i>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-twitter"></i>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-behance"></i>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-dribbble"></i>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-linkedin"></i>
+                </a>
+            </li>
+        </ul>
+        <div class="copyright">
+            <p>All Right Reserved &copy; 2023 <a href="#" target="_blank">Klaustech designs</a></p>
+        </div>
+    </div>
+</footer>
+<!-- ========== End Footer ========== -->
+
+        <!-- ========== Start Scroll To Top  ========== -->
+<a href="#" class="scroll-top">
+    <i class="fa fa-angle-up"></i>
+</a>
+<!-- ========== End Scroll To Top  ========== --> 
+
+        <!-- ========== Js ========== -->
+
+         <!-- jQuery -->
+         <script src="{% static 'portfolio/js/jquery-3.2.1.min.js' %}"></script>
+         <!-- Bootstrap Js -->
+         <script src="{% static 'portfolio/js/bootstrap.min.js' %}"></script>
+         <!-- Typed Js -->
+         <script src="{% static 'portfolio/js/typed.js' %}"></script>
+         <!-- Owl Carousel Js -->
+         <script src="{% static 'portfolio/js/owl.carousel.min.js' %}"></script>
+         <!-- Count To Js -->
+         <script src="{% static 'portfolio/js/jquery.countTo.min.js' %}"></script>
+         <!-- filterizr JS file -->
+         <script src="{% static 'portfolio/js/jquery.filterizr.js' %}"></script>
+         <!-- Magnific Popup JS  -->
+         <script src="{% static 'portfolio/js/jquery.magnific-popup.min.js' %}"></script>
+         <!-- WOW Js -->
+         <script src="{% static 'portfolio/js/wow.min.js' %}"></script>
+         <!-- Custom Js -->
+         <script src="{% static 'portfolio/js/custom.js' %}"></script>
+     </body>
+ </html>
