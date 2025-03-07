@@ -50,7 +50,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'Portfolio_project.urls'
+ROOT_URLCONF = 'portfolio_project.urls'
 
 TEMPLATES = [
     {
@@ -68,7 +68,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'Portfolio_project.wsgi.application'
+WSGI_APPLICATION = 'portfolio_project.wsgi.application'
 
 
 # Database
@@ -118,7 +118,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']  # Add static files directory
-STATIC_ROOT = BASE_DIR / 'staticfiles'  # Add this line
+STATIC_ROOT = BASE_DIR / 'staticfiles/admin'  # Add this line
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
