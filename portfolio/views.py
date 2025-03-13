@@ -7,6 +7,10 @@ def index(request):
     form = ContactForm()
     return render(request, 'portfolio/index.html', {'form': form})
 
+# Home view
+def home_view(request):
+    return render(request, 'portfolio/home.html')  # Render the home template
+
 # Contact form view
 def contact_view(request):
     if request.method == 'POST':
