@@ -2,7 +2,7 @@
 Django==5.1.6
 django-cors-headers==4.7.0
 whitenoise==6.9.0
-python-dotenv==1.0.0  # Add this line
+python-dotenv==1.0.0  # Ensure this line is present
 
 # Database and ORM
 sqlparse==0.5.3
