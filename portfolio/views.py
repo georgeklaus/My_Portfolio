@@ -21,13 +21,22 @@ def contact_view(request):
             subject = form.cleaned_data['subject']
             message = form.cleaned_data['message']
 
-            # Send email
+            # Send email to the owner
             send_mail(
                 f"Contact Form: {subject}",
                 f"Message from {name} ({email}):\n\n{message}",
-                'your-email@example.com',  # From email
-                ['georgerubinga@example.com'],  # To email
+                'georgerubinga@gmail.com',  # From email
+                ['georgerubinga@gmail.com'],  # To email (owner's email)
             )
+
+            # Send confirmation email to the person who filled out the form
+            send_mail(
+                "Thank you for contacting us",
+                f"Dear {name},\n\nThank you for reaching out. We have received your message and will get back to you shortly.\n\nBest regards,\nGeorge",
+                'georgerubinga@gmail.com',  # From email
+                [email],  # To email (person who filled out the form)
+            )
+
             return render(request, 'portfolio/success.html')
     else:
         form = ContactForm()
