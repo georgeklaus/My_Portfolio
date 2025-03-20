@@ -26,7 +26,7 @@ def contact_view(request):
                 f"Contact Form: {subject}",
                 f"Message from {name} ({email}):\n\n{message}",
                 'your-email@example.com',  # From email
-                ['recipient-email@example.com'],  # To email
+                ['georgerubinga@example.com'],  # To email
             )
             return render(request, 'portfolio/success.html')
     else:
