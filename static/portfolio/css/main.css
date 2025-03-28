@@ -911,6 +911,44 @@ h6 {
     border-top: 8px solid #23849e;
 }
 
+/* Two-column grid for Skills/Services */
+.skills .skills-content,
+.services .service-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two equal columns */
+    gap: 20px; /* Space between columns */
+}
+
+.skills .skills-content .skill-item,
+.services .service {
+    background: #323232;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    color: #fff;
+}
+
+.skills .skills-content .skill-item h4,
+.services .service h4 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.skills .skills-content .skill-item p,
+.services .service p {
+    font-size: 14px;
+    color: #c2c0c3;
+}
+
+/* Responsive: Single column on smaller screens */
+@media (max-width: 575.98px) {
+    .skills .skills-content,
+    .services .service-container {
+        grid-template-columns: 1fr; /* Single column */
+    }
+}
+
 /* --------------------------------------
    7. Resume
 -----------------------------------------*/
@@ -2371,12 +2409,12 @@ h6 {
     
     .main-title span {
         font-size: 16px;
-        left: 60%;
+        left: 50%; /* Center the span */
     }
     
     /*=========== Home ============*/
     .home .intro h3 {
-        font-size: 20px;
+        font-size: 18px;
         letter-spacing: .3px;
     }
     
@@ -2385,7 +2423,7 @@ h6 {
     }
     
     .home .intro p {
-        font-size: 20px;
+        font-size: 18px;
         letter-spacing: .3px;
     }
     
@@ -2485,6 +2523,12 @@ h6 {
         padding: 0 8px;
     }
     
+    /*=========== Portfolio ============*/
+    .portfolio .portfolio-content .item {
+        width: 100%; /* Make items stack vertically */
+        margin-bottom: 20px;
+    }
+    
     /*=========== Fun Facts ============*/
     .facts .fact-item {
         margin: 0;
@@ -2502,6 +2546,24 @@ h6 {
     }
     
     /*=========== Blog ============*/
+    .blog .post {
+        margin-bottom: 20px;
+        height: auto;
+    }
+    
+    .blog .post .post-img {
+        float: none;
+        width: 100%;
+        height: auto;
+    }
+    
+    .blog .post .post-content {
+        float: none;
+        width: 100%;
+        padding: 20px;
+        height: auto;
+    }
+    
     .blog .post .post-content .post-title h4 {
         font-size: 15px;
     }
@@ -2521,7 +2583,7 @@ h6 {
     
     /*=========== Contact ============*/
     .contact .contact-boxes {
-        padding: 40px 20px;
+        padding: 20px;
     }
     
 }
