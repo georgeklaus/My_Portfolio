@@ -1,6 +1,6 @@
 /*-----------------------------------------------------------------
-Template Name  : Anwar - One Page Creative Portfolio Template
-Author         : HasnaaDesign
+Template Name  : George - One Page Creative Portfolio Template
+Author     George
 Version        : 1.0
 Primary Use    : Personal, Porfolio
 -----------------------------------------------------------------*/
@@ -37,6 +37,10 @@ Table Of Contents
     transition: all .4s ease-in-out;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     font-family: 'Open Sans', sans-serif;
     background-color: #323232;
@@ -54,6 +58,11 @@ a:focus,
 a:active {
     color: #fff;
     text-decoration: none;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
 }
 
 /*=========== Typography ============*/
@@ -2064,6 +2073,10 @@ h6 {
         padding: 10px;
     }
     
+    .navbar .navbar-nav > li > a {
+        padding: 8px 10px;
+    }
+    
     /*=========== Home ============*/
     .home .intro h1 {
         font-size: 75px;
@@ -2102,9 +2115,13 @@ h6 {
     
     /*=========== Blog ============*/
     .blog .post .post-content .post-text p {
-        padding-top: 11px;
-        margin: 11px 0 0;
+        padding-top: 15px;
+        margin: 15px 0 0;
         font-size: 13px;
+    }
+    
+    .portfolio .portfolio-content .item {
+        margin-bottom: 20px;
     }
 }
 
@@ -2278,6 +2295,11 @@ h6 {
     .portfolio {
         padding-top: 80px;
         padding-bottom: 50px;
+    }
+    
+    .portfolio .portfolio-content .item {
+        width: 100%; /* Make items take full width */
+        margin-bottom: 20px;
     }
     
     /*=========== Fun Facts ============*/
