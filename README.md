@@ -38,7 +38,7 @@ Demonstrates Full-Stack Skills: Combines frontend (JS/CSS) + backend (Django).
 
 Real-World Problem: Solves user engagement (contact form) and deployment.
 
-MLH-Aligned: Uses Python (Django) + JavaScript — preferred languages.
+Uses Python (Django) + JavaScript — preferred languages.
 
 **Challenges & Solutions**
 Challenge: Django static files on Vercel.
@@ -46,10 +46,3 @@ Solution: Used whitenoise + Vercel config.
 
 **Challenge: Cross-browser JS compatibility.**
 Solution: Polyfills/Babel.
-
-**For MLH Reviewers**
-Focus Areas:
-
-Django backend (core/views.py for form handling).
-
-Custom JS (static/js/) for interactivity.
