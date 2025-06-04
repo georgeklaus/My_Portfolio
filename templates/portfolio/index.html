@@ -458,13 +458,13 @@
                     <div class="col-md-3 col-sm-6">
                         <div class="fact-item wow fadeInLeft" data-wow-duration="1.7s">
                             <h4><span class="fact-icon"><i class="fa fa-code"></i></span>projects Done</h4>
-                            <span class="fact-number" data-from="0" data-to="500" data-speed="2500"></span>
+                            <span class="fact-number" data-from="0" data-to="38" data-speed="2500"></span>
                         </div>
                     </div>
                     <div class="col-md-3 col-sm-6">
                         <div class="fact-item wow fadeInLeft" data-wow-duration="1.7s">
                             <h4><span class="fact-icon"><i class="fa fa-users"></i></span>Happy Clients</h4>
-                            <span class="fact-number" data-from="0" data-to="440" data-speed="2500"></span>
+                            <span class="fact-number" data-from="0" data-to="36" data-speed="2500"></span>
                         </div>
                     </div>
                     <div class="col-md-3 col-sm-6">
@@ -475,7 +475,7 @@
                     </div>
                     <div class="col-md-3 col-sm-6">
                         <div class="fact-item wow fadeInLeft" data-wow-duration="1.7s">
-                            <h4><span class="fact-icon"><i class="fa fa-coffee"></i></span>Coffee Cups</h4>
+                            <h4><span class="fact-icon"><i class="fa fa-coffee"></i></span>Coffee Teaa</h4>
                             <span class="fact-number" data-from="0" data-to="150" data-speed="2500"></span>
                         </div>
                     </div>
@@ -490,7 +490,7 @@
     <div class="container">
         <div class="main-title">
             <h2>Contact Me</h2>
-            <span>08.</span>
+            <span>06.</span>
         </div>
         <div class="row">
             <div class="col-sm-4">
@@ -567,6 +567,15 @@
                     <button class="contact-btn main-btn btn btn-block" type="submit" name="send">Send Message</button>
                     <!-- Form Message  -->
                     <div class="form-message text-center"><span></span></div>
+                    {% if messages %}
+    <div class="form-message text-center">
+        {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
                 </form> 
             </div>
         </div>
