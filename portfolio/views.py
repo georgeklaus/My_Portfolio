@@ -135,6 +135,8 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
+api_key = os.getenv("OPENROUTER_API_KEY")
+print("Loaded API Key:", api_key[:6] + "..." if api_key else "None")
 
 @csrf_exempt
 def chatbot_api(request):
@@ -145,7 +147,7 @@ def chatbot_api(request):
         headers = {
             "Authorization": f"Bearer {os.getenv('OPENROUTER_API_KEY')}",
             "Content-Type": "application/json",
-            "HTTP-Referer": "https://openrouter.ai",
+            "HTTP-Referer": "https://my-portfolio-blush-delta-44.vercel.app/",
             "X-Title": "DjangoWebChatbot"
         }
 
@@ -160,8 +162,15 @@ def chatbot_api(request):
         try:
             response = requests.post("https://openrouter.ai/api/v1/chat/completions", headers=headers, json=payload)
             result = response.json()
-            reply = result["choices"][0]["message"]["content"]
-            return JsonResponse({"reply": reply})
+            print("OpenRouter API response:", result)
+            
+            if "choices" in result and result["choices"]:
+                reply = result["choices"][0]["message"]["content"]
+                return JsonResponse({"reply": reply})
+            else:
+                return JsonResponse({"error": result.get("error", "Unexpected API response.")}, status=500)
+        
+        
 
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=500)

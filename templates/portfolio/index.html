@@ -614,8 +614,38 @@ document.addEventListener("DOMContentLoaded", function () {
     const chatbotForm = document.querySelector(".chatbot-form");
     const chatbotMessages = document.querySelector(".chatbot-messages");
 
-    chatbotIcon.addEventListener("click", () => chatbotContainer.style.display = "block");
-    closeChat.addEventListener("click", () => chatbotContainer.style.display = "none");
+    // Load history from localStorage
+    function loadChatHistory() {
+        const history = localStorage.getItem("chatHistory");
+        if (history) {
+            chatbotMessages.innerHTML = history;
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+        }
+    }
+
+    // Save history to localStorage
+    function saveChatHistory() {
+        localStorage.setItem("chatHistory", chatbotMessages.innerHTML);
+    }
+
+    // Send greeting once per session
+    let greeted = false;
+
+    chatbotIcon.addEventListener("click", () => {
+        chatbotContainer.style.display = "block";
+        loadChatHistory();
+
+        if (!greeted && !chatbotMessages.innerHTML.includes("Welcome")) {
+            chatbotMessages.innerHTML += `<div class="message bot-message"><strong>Klaus:</strong> 👋 Hello there! Welcome back. How can I assist you today?</div>`;
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+            saveChatHistory();
+            greeted = true;
+        }
+    });
+
+    closeChat.addEventListener("click", () => {
+        chatbotContainer.style.display = "none";
+    });
 
     chatbotForm.addEventListener("submit", async function (e) {
         e.preventDefault();
@@ -626,11 +656,11 @@ document.addEventListener("DOMContentLoaded", function () {
         chatbotMessages.innerHTML += `<div class="message user-message"><strong>You:</strong> ${message}</div>`;
         input.value = "";
         chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+        saveChatHistory();
 
-        // Add 'typing...' message
         const typingMsg = document.createElement("div");
         typingMsg.className = "message bot-message typing";
-        typingMsg.innerHTML = `<strong>klaus:</strong> <em>Typing...</em>`;
+        typingMsg.innerHTML = `<strong>Klaus:</strong> <em>Typing...</em>`;
         chatbotMessages.appendChild(typingMsg);
         chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
 
@@ -642,8 +672,6 @@ document.addEventListener("DOMContentLoaded", function () {
             });
 
             const data = await response.json();
-
-            // Remove typing indicator
             typingMsg.remove();
 
             if (data.reply) {
@@ -657,6 +685,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+        saveChatHistory();
     });
 });
 </script>
