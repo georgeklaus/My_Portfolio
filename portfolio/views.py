@@ -145,14 +145,14 @@ def chatbot_api(request):
         user_message = data.get("message")
 
         headers = {
-            "Authorization": f"Bearer {os.getenv('OPENROUTER_API_KEY')}",
+            "Authorization": f"Bearer {api_key}",
             "Content-Type": "application/json",
-            "HTTP-Referer": "https://my-portfolio-blush-delta-44.vercel.app/",
+            "Referer": "http://localhost:7001",
             "X-Title": "DjangoWebChatbot"
         }
 
         payload = {
-            "model": "openai/gpt-3.5-turbo",  # You can change this to GPT-4 or Claude
+            "model": "anthropic/claude-3-haiku",  # You can change this to GPT-4 or Claude
             "messages": [
                 {"role": "system", "content": "You are a helpful assistant."},
                 {"role": "user", "content": user_message}
