@@ -686,10 +686,17 @@ document.addEventListener("DOMContentLoaded", function () {
             typingMsg.remove();
 
             if (data.reply) {
-                chatbotMessages.innerHTML += `<div class="message bot-message"><strong>Klaus:</strong> ${data.reply}</div>`;
-            } else {
-                chatbotMessages.innerHTML += `<div class="message error-message"><strong>Klaus:</strong> Sorry, something went wrong.</div>`;
-            }
+    // Convert plain URLs into clickable <a> tags
+    const formattedReply = data.reply.replace(
+        /(https?:\/\/[^\s]+)/g,
+        '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>'
+    );
+    chatbotMessages.innerHTML += `<div class="message bot-message"><strong>Klaus:</strong> ${formattedReply}</div>`;
+} else {
+    chatbotMessages.innerHTML += `<div class="message error-message"><strong>Klaus:</strong> Sorry, something went wrong.</div>`;
+}
+
+           
         } catch (error) {
             typingMsg.remove();
             chatbotMessages.innerHTML += `<div class="message error-message"><strong>Klaus:</strong> Oops! Something went wrong.</div>`;
