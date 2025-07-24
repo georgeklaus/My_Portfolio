@@ -3,6 +3,7 @@ from django.core.mail import send_mail, EmailMultiAlternatives
 from django.contrib import messages
 from .forms import ContactForm
 
+
 # Add the index view for the homepage or portfolio page
 def index(request):
     form = ContactForm()
@@ -121,3 +122,48 @@ def contact_view(request):
         form = ContactForm()
 
     return render(request, 'portfolio/contact.html', {'form': form})
+
+def chat_view(request):
+    return render(request, 'portfolio/chat.html')
+
+
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import requests
+import json
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+@csrf_exempt
+def chatbot_api(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        user_message = data.get("message")
+
+        headers = {
+            "Authorization": f"Bearer {os.getenv('OPENROUTER_API_KEY')}",
+            "Content-Type": "application/json",
+            "HTTP-Referer": "https://openrouter.ai",
+            "X-Title": "DjangoWebChatbot"
+        }
+
+        payload = {
+            "model": "openai/gpt-3.5-turbo",  # You can change this to GPT-4 or Claude
+            "messages": [
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": user_message}
+            ]
+        }
+
+        try:
+            response = requests.post("https://openrouter.ai/api/v1/chat/completions", headers=headers, json=payload)
+            result = response.json()
+            reply = result["choices"][0]["message"]["content"]
+            return JsonResponse({"reply": reply})
+
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
+
+    return JsonResponse({"error": "Invalid request"}, status=400)

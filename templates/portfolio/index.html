@@ -587,6 +587,81 @@
         </div>
     </div>
 </section>
+
+<!-- === AI Chatbot Section === -->
+<!-- === AI Chatbot Section (Floating) === -->
+<div class="chatbot-icon" style="position: fixed; bottom: 30px; left: 30px; z-index: 9999; cursor: pointer;">
+    <img src="https://img.icons8.com/ios-filled/50/000000/chat.png" width="40" />
+</div>
+
+<div class="chatbot-container" style="display: none; position: fixed; bottom: 100px; left: 50px; width: 350px; background: #fff; border: 1px solid #ccc; border-radius: 8px; z-index: 9999; box-shadow: 0 2px 10px rgba(158, 92, 228, 0.1);">
+    <div style="background: #62a6eb; color: rgb(145, 5, 5); padding: 10px 15px; border-top-left-radius: 8px; border-top-right-radius: 8px;">
+        <strong>AI Chatbot</strong>
+        <span class="close-chat" style="float: right; cursor: pointer;">&times;</span>
+    </div>
+    <div class="chatbot-messages" style="height: 200px; overflow-y: auto; padding: 10px; font-size: 14px;"></div>
+    <form class="chatbot-form" style="display: flex; border-top: 1px solid #221818;">
+        <input type="text" name="message" class="form-control" placeholder="Type a message..." style="flex: 1; border: none; padding: 10px; font-size: 14px;">
+        <button type="submit" class="btn btn-primary" style="border: none;">Send</button>
+    </form>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const chatbotIcon = document.querySelector(".chatbot-icon");
+    const chatbotContainer = document.querySelector(".chatbot-container");
+    const closeChat = document.querySelector(".close-chat");
+    const chatbotForm = document.querySelector(".chatbot-form");
+    const chatbotMessages = document.querySelector(".chatbot-messages");
+
+    chatbotIcon.addEventListener("click", () => chatbotContainer.style.display = "block");
+    closeChat.addEventListener("click", () => chatbotContainer.style.display = "none");
+
+    chatbotForm.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        const input = this.querySelector("input[name='message']");
+        const message = input.value.trim();
+        if (!message) return;
+
+        chatbotMessages.innerHTML += `<div class="message user-message"><strong>You:</strong> ${message}</div>`;
+        input.value = "";
+        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+
+        // Add 'typing...' message
+        const typingMsg = document.createElement("div");
+        typingMsg.className = "message bot-message typing";
+        typingMsg.innerHTML = `<strong>klaus:</strong> <em>Typing...</em>`;
+        chatbotMessages.appendChild(typingMsg);
+        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+
+        try {
+            const response = await fetch("/chatbot-api/", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ message })
+            });
+
+            const data = await response.json();
+
+            // Remove typing indicator
+            typingMsg.remove();
+
+            if (data.reply) {
+                chatbotMessages.innerHTML += `<div class="message bot-message"><strong>Klaus:</strong> ${data.reply}</div>`;
+            } else {
+                chatbotMessages.innerHTML += `<div class="message error-message"><strong>Klaus:</strong> Sorry, something went wrong.</div>`;
+            }
+        } catch (error) {
+            typingMsg.remove();
+            chatbotMessages.innerHTML += `<div class="message error-message"><strong>Klaus:</strong> Oops! Something went wrong.</div>`;
+        }
+
+        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+    });
+});
+</script>
+
+
 <!-- ========== End Contact ========== -->
 
 <!-- ========== Start Footer ========== -->

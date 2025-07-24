@@ -210,7 +210,9 @@ $(function () {
 		return false;
 		
 	});
-
+    /**=========CHATBOT JS FILE HERE================*/
+    
+    
     /*========== Scroll To Top  ==========*/
     function scrollUp() {
         if (win.scrollTop() >= 1200) {

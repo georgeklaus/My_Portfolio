@@ -1,4 +1,4 @@
-#!/home/george/my_portfolio/venv/bin/python3
+#!/home/klaus/my_portfolio/venv/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys
