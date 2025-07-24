@@ -151,10 +151,21 @@ def chatbot_api(request):
             "X-Title": "DjangoWebChatbot"
         }
 
+        def get_personalized_prompt():
+            return (
+    "You are Klaus, a helpful assistant chatbot built into George R. Muthike's portfolio website. "
+    "George is an IT student and web developer based in Nairobi, Kenya. "
+    "Your job is to assist visitors with questions about George's skills, experience, and how to reach him. "
+    "If someone asks how to contact George, let them know they can email him at georgerubinga@gmail.com or call +254725717270. "
+    "If someone asks about his work, explain that George has experience in IT support, web development, and data analysis. "
+    "Mention he has built projects like a portfolio website, an IT helpdesk system, and an expense tracker. "
+    "Do NOT say you're a general assistant — you know everything about this website and George's background from his CV."
+)
+
         payload = {
             "model": "anthropic/claude-3-haiku",  # You can change this to GPT-4 or Claude
             "messages": [
-                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "system", "content": get_personalized_prompt()},
                 {"role": "user", "content": user_message}
             ]
         }
