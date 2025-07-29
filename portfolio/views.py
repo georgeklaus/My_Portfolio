@@ -22,6 +22,7 @@ def contact_view(request):
             email = form.cleaned_data['email']
             subject = form.cleaned_data['subject']
             message = form.cleaned_data['message']
+            html_message_body = message.replace('\n', '<br>')
 
             # HTML email with a cleaner, more compact format
             html_message = f"""
@@ -46,7 +47,7 @@ def contact_view(request):
                             </tr>
                         </table>
                         <div style="background: #f8f9fa; padding: 15px; border-radius: 4px; margin-top: 20px; text-align: left !important;">
-                            {message.replace('\n', '<br>')}
+                            {html_message_body}
                         </div>
                         <div style="margin-top: 20px; text-align: left !important;">
                             <p style="text-align: left !important; margin: 10px 0;">Best regards,<br>{name}</p>
@@ -66,6 +67,7 @@ def contact_view(request):
                 from_email='georgerubinga@gmail.com',
                 to=['georgerubinga@gmail.com'],
                 reply_to=[email]
+
             )
             msg.attach_alternative(html_message, "text/html")
             msg.send()
@@ -85,7 +87,7 @@ def contact_view(request):
                             <li><strong>Subject:</strong> {subject}</li>
                         </ul>
                         <div style="background: #f8f9fa; padding: 15px; border-radius: 4px; margin-top: 10px;">
-                            {message.replace('\n', '<br>')}
+                            {{html_confirmation_body}}
                         </div>
                         <p style="margin-top: 20px;">In the meantime, feel free to visit my <a href="https://my-portfolio-blush-delta-44.vercel.app/"
    style="display:inline-block; margin-top:20px; background:#1976d2; color:#fff; padding:10px 20px; border-radius:4px; text-decoration:none;">
@@ -162,6 +164,7 @@ def chatbot_api(request):
         "He also built some school websites like [George Academy](https://my-portfolio-65kkm2rv5-georgeklaus-projects.vercel.app/) and [Venture Academy](https://venture-academy-porject.vercel.app/). "
         "Another project is a [luxury hotel website](https://my-newhotel1.vercel.app/). "
         "Do NOT say you're a general assistant — you know everything about this website and George's background from his CV."
+        "While your main role is to help visitors learn about George, feel free to respond helpfully to general questions or have lighthearted conversations — like telling jokes, fun facts, or tech tips."
     )
 
         payload = {
