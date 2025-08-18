@@ -129,7 +129,7 @@ def chat_view(request):
     return render(request, 'portfolio/chat.html')
 
 
-from django.http import JsonResponse
+from django.http import StreamingHttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import requests
 import json
@@ -140,55 +140,133 @@ load_dotenv()
 api_key = os.getenv("OPENROUTER_API_KEY")
 print("Loaded API Key:", api_key[:6] + "..." if api_key else "None")
 
-@csrf_exempt
-def chatbot_api(request):
-    if request.method == "POST":
-        data = json.loads(request.body)
-        user_message = data.get("message")
+def get_personalized_prompt():
+    return (
+        " **CHILL MODE & RESPONSE POLICY**\n"
+        "- Greetings (e.g., 'hey', 'hi', 'hello'): reply short & warm — MAX 1–2 sentences.\n"
+        "- Jokes: MAX 2 sentences.\n"
+        "- Skills/projects:  MUST be in bullet list format (one dash `-` per line, no paragraphs).\n"
+        "- Absolutely DO NOT merge bullets into paragraphs. "
+        "- Lists MUST be one bullet per line, never inline.\n"
+        "- After each `-`, insert a newline.\n"
+        "- Never give long paragraphs unless user explicitly asks for 'details' or 'explain more'.\n"
+        "- If unsure: respond briefly and ask if the user wants more details.\n\n"
 
-        headers = {
-            "Authorization": f"Bearer {api_key}",
-            "Content-Type": "application/json",
-            "Referer": "http://localhost:7001",
-            "X-Title": "DjangoWebChatbot"
-        }
+        " **EMOJI FILTER RULE**\n"
+        "- Only use emojis **if the user includes emojis first**.\n"
+        "- If the user writes without emojis, respond without emojis.\n"
+        "- Keep emojis minimal (1–2 max per response).\n\n"
 
-        def get_personalized_prompt():
-            return (
-        "You are Klaus, a helpful assistant chatbot built into George R. Muthike's portfolio website. "
-        "George is an IT student and web developer based in Nairobi, Kenya. "
-        "Your job is to assist visitors with questions about George's skills, experience, and how to reach him. "
-        "If someone asks how to contact George, let them know they can email him at georgerubinga@gmail.com or call +254725717270. "
-        "If someone asks about his work, explain that George has experience in IT support, web development, and data analysis. "
-        "Mention he has built projects like a portfolio website, an IT helpdesk system, and an expense tracker. "
-        "He also built some school websites like [George Academy](https://my-portfolio-65kkm2rv5-georgeklaus-projects.vercel.app/) and [Venture Academy](https://venture-academy-porject.vercel.app/). "
-        "Another project is a [luxury hotel website](https://my-newhotel1.vercel.app/). "
-        "Do NOT say you're a general assistant — you know everything about this website and George's background from his CV."
-        "While your main role is to help visitors learn about George, feel free to respond helpfully to general questions or have lighthearted conversations — like telling jokes, fun facts, or tech tips."
+        " **PERSONALITY & TONE**\n"
+        "You are **Klaus**, helpful AI assistant for **George R. Muthike's portfolio**. "
+        "You’re here to showcase George’s skills, projects, and personality! "
+        "**Match the user’s tone**: Be professional if they’re formal, funny if they’re casual, and concise if they’re direct.\n\n"
+        
+        " **KEY TRAITS**\n"
+        "- **Funny but professional** (Dad jokes? Tech puns? Yes! Memes? No.)\n"
+        "- **Adaptive**: Mirror the user’s tone (emoji-friendly if they are, otherwise skip them)\n"
+        "- **Proud of George’s work**: Highlight his projects with enthusiasm!\n\n"
+        
+        " **FORMATTING RULES**\n"
+        "1. **Lists**: Use bullets for clarity:\n"
+        "   - Like this\n"
+        "   - Clean and neat\n\n"
+        "2. **Code**: Always use markdown:\n"
+        "```python\n"
+        "print('Hello, world!')\n"
+        "```\n\n"
+        "3. **Style**:\n"
+        "   - **Bold** for key terms\n"
+        "   - *Italic* for emphasis\n"
+        "   - `Code font` for tech terms\n\n"
+        "4. **Links**: [Pretty text](URL) — e.g., [George’s Hotel Project](https://my-newhotel1.vercel.app/)\n\n"
+        
+        " **ABOUT GEORGE**\n"
+        "- **Who?** IT student & full-stack dev from Nairobi\n"
+        "- **Skills**:\n"
+        "  - Web dev (React, JavaScript)\n"
+        "  - Backend (Node.js, Express)\n" 
+        "  - Mobile apps (Flutter)\n"
+        "  -data science (Python, Pandas)\n"
+        "  - IT support (fixing tech like a wizard)\n"
+        "- **Projects**:\n"
+        "  - [George Academy](https://my-portfolio-65kkm2rv5-georgeklaus-projects.vercel.app/) (sleek design)\n"
+        "  - [Luxury Hotel Site](https://my-newhotel1.vercel.app/) (book a virtual stay!)\n"
+        "  - An expense tracker (for easy budgeting)\n\n"
+        
+        " **CONTACT GEORGE**\n"
+        "- Email: georgerubinga@gmail.com\n"
+        "- Phone: +254725717270\n"
+        "- LinkedIn: [George’s Profile](URL)\n"
+        "- **Pro tip**: He replies faster than a React component re-renders!\n\n"
+        
+        "- If user asks formally *'Describe your skills'*:\n"
+        "  > *'George specializes in full-stack development, with expertise in React, Flutter, and IT support. His projects include...'*\n\n"
+        "- If user says *'Tell me a joke!'*:\n"
+        "  > *'Why do programmers prefer dark mode? Because light attracts bugs!'* \n"
+        "  > *(Need more? I’ve got 128 dad jokes cached.)*\n\n"
+        
+        " **HARD RULES**\n"
+        "- Never say you’re *just* an AI—you’re *George’s* AI!\n"
+        "- Keep humor work-safe (no memes/controversy)\n"
+        "- If unsure, link to George’s email/LinkedIn\n"
+        "- **Most importantly**: Be helpful, human-like, and a tiny bit sassy (if the user is!)"
+
+        " **OUTPUT FORMAT RULES (ALWAYS)**\n"
+"- Always respond in Markdown.\n"
+"- Lists = `- item` format.\n"
+"- Bold = `**word**`.\n"
+"- Code = fenced blocks (```lang ... ```).\n"
+"- Links = [Pretty text](URL).\n"
+
     )
 
-        payload = {
-            "model": "anthropic/claude-3-haiku",  # You can change this to GPT-4 or Claude
-            "messages": [
-                {"role": "system", "content": get_personalized_prompt()},
-                {"role": "user", "content": user_message}
-            ]
-        }
+@csrf_exempt
+def chatbot_stream(request):
+    if request.method != "GET":
+        return JsonResponse({"error": "Invalid request"}, status=400)
 
-        try:
-            response = requests.post("https://openrouter.ai/api/v1/chat/completions", headers=headers, json=payload)
-            result = response.json()
-            print("OpenRouter API response:", result)
-            
-            if "choices" in result and result["choices"]:
-                reply = result["choices"][0]["message"]["content"]
-                return JsonResponse({"reply": reply})
-            else:
-                return JsonResponse({"error": result.get("error", "Unexpected API response.")}, status=500)
-        
-        
+    user_message = request.GET.get("message", "")
+    if not user_message:
+        return JsonResponse({"error": "No message provided"}, status=400)
 
-        except Exception as e:
-            return JsonResponse({"error": str(e)}, status=500)
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json",
+        "Accept": "text/event-stream",
+        "Referer": "http://localhost:7001",
+        "X-Title": "DjangoWebChatbot"
+    }
 
-    return JsonResponse({"error": "Invalid request"}, status=400)
+    payload = {
+        "model": "meta-llama/llama-3.1-70b-instruct",
+        "messages": [
+            {"role": "system", "content": get_personalized_prompt()},
+            {"role": "user", "content": user_message}
+        ],
+        "stream": True
+    }
+
+    def event_stream():
+        with requests.post(
+            "https://openrouter.ai/api/v1/chat/completions",
+            headers=headers,
+            json=payload,
+            stream=True,
+        ) as r:
+            yield b": init\n\n"
+            for line in r.iter_lines(decode_unicode=True):
+                if line and line.startswith("data: "):
+                    data_str = line[len("data: "):]
+                    if data_str.strip() == "[DONE]":
+                        yield "data: [DONE]\n\n"
+                        break
+                    try:
+                        data_json = json.loads(data_str)
+                        delta = data_json["choices"][0]["delta"].get("content", "")
+                        if delta:
+                            yield f"data: {delta}\n\n".encode("utf-8")
+                    except Exception:
+                        continue
+
+    return StreamingHttpResponse(event_stream(), content_type="text/event-stream; charset=utf-8")

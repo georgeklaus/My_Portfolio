@@ -591,144 +591,466 @@
 
 
 <!-- === AI Chatbot Section === -->
-<!-- === AI Chatbot Section (Floating) === -->
-<div class="chatbot-icon" style="
-    position: fixed;
-    bottom: 50px;
-    left: 30px;
-    z-index: 9999;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: rgba(98, 166, 235, 0.15);
-    padding: 10px 14px;
-    border-radius: 30px;
-    box-shadow: 0 0 8px rgba(98, 166, 235, 0.4);
-    transition: all 0.3s ease;
-">
-    <img src="https://img.icons8.com/ios-filled/50/62a6eb/chat.png" width="26" height="26" alt="Chat Icon" />
-    <span style="
-        color: #62a6eb;
-        font-size: 1.9rem;
-        font-weight: 600;
-        font-family: 'Segoe UI', sans-serif;
-    ">Your AI Assistant</span>
-</div>
+<style>
+  /* ===============
+     Klaus Chat Styles (scoped)
+     =============== */
+  :root {
+    --klaus-brand: #62a6eb;
+    --klaus-brand-weak: rgba(98, 166, 235, 0.15);
+    --klaus-text: #0f172a;
+    --klaus-muted: #6b7280;
+    --klaus-bg: #ffffff;
+    --klaus-bot: #f3f4f6;
+    --klaus-border: rgba(0,0,0,0.08);
+    --klaus-shadow: 0 10px 30px rgba(2, 6, 23, 0.08);
+  }
 
-<div class="chatbot-container" style="display: none; position: fixed; bottom: 100px; left: 50px; width: 350px; background: #fff; border: 1px solid #ccc; border-radius: 8px; z-index: 9999; box-shadow: 0 2px 10px rgba(158, 92, 228, 0.1);">
-    <div style="background: #62a6eb; color: #fff; padding: 10px 15px; border-top-left-radius: 8px; border-top-right-radius: 8px;">
-        <strong>KLAUS AI</strong>
-        <span class="clear-chat" style="float: right; margin-left: 10px; cursor: pointer; color: #fff;">🗑️ Del</span>
-        <span class="close-chat" style="float: right; cursor: pointer;">&times;</span>
-    </div>
-    <div class="chatbot-messages" style="height: 200px; overflow-y: auto; padding: 10px; font-size: 14px;"></div>
-    <form class="chatbot-form" style="display: flex; border-top: 1px solid #221818;">
-        <input type="text" name="message" class="form-control" placeholder="Type a message..." style="flex: 1; border: none; padding: 10px; font-size: 14px;">
-        <button type="submit" class="btn btn-primary" style="border: none;">Send</button>
-    </form>
-</div>
-
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    const chatbotIcon = document.querySelector(".chatbot-icon");
-    const chatbotContainer = document.querySelector(".chatbot-container");
-    const closeChat = document.querySelector(".close-chat");
-    const clearChat = document.querySelector(".clear-chat");
-    const chatbotForm = document.querySelector(".chatbot-form");
-    const chatbotMessages = document.querySelector(".chatbot-messages");
-
-    // Load history from localStorage
-    function loadChatHistory() {
-        const history = localStorage.getItem("chatHistory");
-        if (history) {
-            chatbotMessages.innerHTML = history;
-            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
-        }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --klaus-text: #e5e7eb;
+      --klaus-muted: #9ca3af;
+      --klaus-bg: #0b1220;
+      --klaus-bot: #0f172a;
+      --klaus-border: rgba(255,255,255,0.08);
+      --klaus-shadow: 0 10px 30px rgba(0,0,0,0.35);
     }
+  }
 
-    // Save history to localStorage
-    function saveChatHistory() {
-        localStorage.setItem("chatHistory", chatbotMessages.innerHTML);
-    }
+  .klaus-chat { position: fixed; bottom: 24px; left: 24px; z-index: 9999; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"; }
 
-    // Send greeting once per session
-    let greeted = false;
+  /* Floating toggle */
+  .klaus-toggle { display: inline-flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 999px; background: var(--klaus-brand-weak); border: 1px solid var(--klaus-border); box-shadow: 0 0 8px rgba(98,166,235,0.35); cursor: pointer; user-select: none; transition: transform .2s ease, box-shadow .2s ease; }
+  .klaus-toggle:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(98,166,235,0.35); }
+  .klaus-toggle img { width: 25px; height: 30px; }
+  .klaus-toggle span { color: var(--klaus-brand); font-size: 1.5rem; font-weight: 700; letter-spacing: .1px; }
 
-    chatbotIcon.addEventListener("click", () => {
-        chatbotContainer.style.display = "block";
-        loadChatHistory();
+  /* Chat window */
+  .klaus-window { display: none; position: fixed; bottom: 84px; left: 24px; width: 370px; height: 450px; max-width: calc(100vw - 32px); background: var(--klaus-bg); border: 1px solid var(--klaus-border); border-radius: 16px; box-shadow: var(--klaus-shadow); overflow: hidden; }
+  .klaus-header { background: var(--klaus-brand); color: white; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; }
+  .klaus-title { font-weight: 800; letter-spacing: .2px; }
+  .klaus-actions { display: inline-flex; align-items: center; gap: 10px; }
+  .klaus-action { cursor: pointer; opacity: .95; }
+  .klaus-action:hover { opacity: 1; }
 
-        if (!greeted && !chatbotMessages.innerHTML.includes("Welcome")) {
-            chatbotMessages.innerHTML += `<div class="message bot-message"><strong>Klaus:</strong> 👋 Hello there! Welcome back. How can I assist you today?</div>`;
-            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
-            saveChatHistory();
-            greeted = true;
-        }
-    });
+  .klaus-messages { height: 280px; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 10px; background: linear-gradient(180deg, rgba(98,166,235,0.05), transparent 20%); }
 
-    closeChat.addEventListener("click", () => {
-        chatbotContainer.style.display = "none";
-    });
+  /* Message bubble layout */
+  .klaus-msg { display: grid; grid-template-columns: 34px 1fr; gap: 10px; align-items: end; animation: klaus-fade .18s ease; }
+  .klaus-msg.user { grid-template-columns: 1fr 34px; }
+  .klaus-avatar { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-size: .8rem; font-weight: 700; border: 1px solid var(--klaus-border); background: var(--klaus-bot); color: var(--klaus-muted); overflow: hidden; }
+  .klaus-avatar img { width: 100%; height: 100%; object-fit: cover; }
 
-    clearChat.addEventListener("click", () => {
-    if (confirm("Are you sure you want to clear the chat history?")) {
-        chatbotMessages.innerHTML = "";
-        localStorage.removeItem("chatHistory");
-        greeted = false;
-    }
-});
+  .klaus-bubble { position: relative; max-width: 92%; padding: 10px 12px; border-radius: 14px; border: 1px solid var(--klaus-border); line-height: 1.35; font-size: 14px; color: var(--klaus-text); background: var(--klaus-bot); }
+  .klaus-msg.user .klaus-bubble { justify-self: end; background: var(--klaus-brand); color: white; border-color: rgba(255,255,255,0.2); }
 
+  /* Bubble arrows */
+  .klaus-msg.bot .klaus-bubble::after { content: ""; position: absolute; left: -6px; bottom: 6px; border-width: 6px; border-style: solid; border-color: transparent var(--klaus-bot) transparent transparent; filter: drop-shadow(-1px 1px 0 var(--klaus-border)); }
+  .klaus-msg.user .klaus-bubble::after { content: ""; position: absolute; right: -6px; bottom: 6px; border-width: 6px; border-style: solid; border-color: transparent transparent transparent var(--klaus-brand); }
 
-    chatbotForm.addEventListener("submit", async function (e) {
-        e.preventDefault();
-        const input = this.querySelector("input[name='message']");
-        const message = input.value.trim();
-        if (!message) return;
+  .klaus-input { display: flex; border-top: 1px solid var(--klaus-border); }
+  .klaus-input input { flex: 1; border: none; outline: none; padding: 12px; font-size: 14px; background: transparent; color: var(--klaus-text); }
+  .klaus-send { border: none; padding: 0 14px; font-weight: 700; background: var(--klaus-brand); color: #fff; cursor: pointer; }
+  .klaus-send:disabled { opacity: .6; cursor: not-allowed; }
 
-        chatbotMessages.innerHTML += `<div class="message user-message"><strong>You:</strong> ${message}</div>`;
-        input.value = "";
-        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
-        saveChatHistory();
+  /* Typing indicator */
+  .klaus-typing { display: inline-flex; gap: 4px; align-items: center; }
+  .klaus-typing span { width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: .6; animation: klaus-bounce 1.2s infinite ease-in-out; }
+  .klaus-typing span:nth-child(2) { animation-delay: .15s; }
+  .klaus-typing span:nth-child(3) { animation-delay: .3s; }
 
-        const typingMsg = document.createElement("div");
-        typingMsg.className = "message bot-message typing";
-        typingMsg.innerHTML = `<strong>Klaus:</strong> <em>Typing...</em>`;
-        chatbotMessages.appendChild(typingMsg);
-        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+  @keyframes klaus-bounce {
+    0%, 80%, 100% { transform: scale(0.7); opacity: .4; }
+    40% { transform: scale(1); opacity: 1; }
+  }
+  @keyframes klaus-fade { from { opacity: 0; transform: translateY(2px); } to { opacity: 1; transform: translateY(0); } }
 
-        try {
-            const response = await fetch("/chatbot-api/", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ message })
-            });
+  /* Links inside bubbles */
+  .klaus-bubble a { text-decoration: underline; word-break: break-word; }
 
-            const data = await response.json();
-            typingMsg.remove();
+  /* Small screens tweak */
+  @media (max-width: 480px) { .klaus-window { left: 12px; right: 12px; width: auto; bottom: 84px; } }
 
-            if (data.reply) {
-    // Convert plain URLs into clickable <a> tags
-    const formattedReply = data.reply.replace(
-        /(https?:\/\/[^\s]+)/g,
-        '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>'
-    );
-    chatbotMessages.innerHTML += `<div class="message bot-message"><strong>Klaus:</strong> ${formattedReply}</div>`;
-} else {
-    chatbotMessages.innerHTML += `<div class="message error-message"><strong>Klaus:</strong> Sorry, something went wrong.</div>`;
+  /* -------- Markdown-friendly bubble styles -------- */
+
+/* extra vars for code blocks */
+:root {
+  --klaus-code-bg: #f6f8fa; 
+  --klaus-code-fg: #24292f;
+  --klaus-code-inline-bg: #f4f4f4;
+  --klaus-code-inline-fg: #c7254e;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --klaus-code-bg: #0d1117;   /* dark */
+    --klaus-code-fg: #e6edf3;
+    --klaus-code-inline-bg: #111827;
+    --klaus-code-inline-fg: #f3f4f6;
+  }
 }
 
-           
-        } catch (error) {
-            typingMsg.remove();
-            chatbotMessages.innerHTML += `<div class="message error-message"><strong>Klaus:</strong> Oops! Something went wrong.</div>`;
-        }
+/* make bubble content flow naturally */
+.klaus-bubble { 
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+.klaus-bubble > :first-child { margin-top: 0; }
+.klaus-bubble > :last-child  { margin-bottom: 0; }
 
-        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
-        saveChatHistory();
-    });
+/* paragraphs & headings */
+.klaus-bubble p { margin: 0 0 .6em; }
+.klaus-bubble h1,
+.klaus-bubble h2,
+.klaus-bubble h3,
+.klaus-bubble h4 { 
+  margin: .4em 0 .3em; 
+  line-height: 1.2;
+}
+.klaus-bubble h1 { font-size: 1.1rem; }
+.klaus-bubble h2 { font-size: 1.05rem; }
+.klaus-bubble h3 { font-size: 1rem; }
+
+/* lists */
+.klaus-bubble ul,
+.klaus-bubble ol {
+  margin: .4em 0 .6em 1.2em;
+  padding-left: 1.2em;
+}
+.klaus-bubble ul { list-style-type: disc; }
+.klaus-bubble ol { list-style: decimal; }
+.klaus-bubble li { margin: .25em 0; }
+
+/* blockquotes */
+.klaus-bubble blockquote {
+  margin: .6em 0;
+  padding: .4em .8em;
+  border-left: 3px solid var(--klaus-brand);
+  background: rgba(98,166,235,.08);
+  border-radius: 6px;
+}
+
+/* inline code */
+.klaus-bubble code {
+  background: var(--klaus-code-inline-bg);
+  color: var(--klaus-code-inline-fg);
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+  font-size: .95em;
+}
+
+/* code blocks */
+.klaus-bubble pre {
+  background: var(--klaus-code-bg);
+  color: var(--klaus-code-fg);
+  padding: .75em;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: .6em 0;
+  line-height: 1.4;
+  border: 1px solid var(--klaus-border);
+}
+.klaus-bubble pre code {
+  background: transparent;   /* avoid double bg */
+  color: inherit;
+  padding: 0;
+  border-radius: 0;
+  font-size: .9em;
+}
+
+/* keep code readable inside the USER bubble (blue bg) */
+.klaus-msg.user .klaus-bubble pre,
+.klaus-msg.user .klaus-bubble code {
+  background: var(--klaus-code-bg);
+  color: var(--klaus-code-fg);
+  border-color: rgba(255,255,255,.2);
+}
+
+/* links from markdown */
+.klaus-bubble a {
+  text-decoration: underline;
+  word-break: break-word;
+}
+
+/* tables (markdown) */
+.klaus-bubble table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: .6em 0;
+  font-size: .95em;
+}
+.klaus-bubble th,
+.klaus-bubble td {
+  border: 1px solid var(--klaus-border);
+  padding: .4em .6em;
+}
+.klaus-bubble th {
+  background: rgba(98,166,235,.08);
+  text-align: left;
+}
+
+/* images safety */
+.klaus-bubble img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  display: block;
+  margin: .4em 0;
+}
+
+/* horizontal rule */
+.klaus-bubble hr {
+  border: 0;
+  border-top: 1px solid var(--klaus-border);
+  margin: .8em 0;
+}
+
+</style>
+
+
+<div class="klaus-chat" aria-live="polite">
+  <!-- Floating toggle -->
+  <div class="klaus-toggle" id="klausToggle" title="Open Klaus AI">
+    <img src="https://img.icons8.com/ios-filled/50/62a6eb/chat.png" alt="Chat" />
+    <span>Your AI Assistant</span>
+  </div>
+
+  <!-- Chat window -->
+  <section class="klaus-window" id="klausWindow" role="dialog" aria-label="Klaus AI Chat">
+    <header class="klaus-header">
+      <div class="klaus-title">KLAUS AI</div>
+      <div class="klaus-actions">
+        <div class="klaus-action" id="klausClear" title="Clear conversation">🗑️</div>
+        <div class="klaus-action" id="klausClose" title="Close">✖</div>
+      </div>
+    </header>
+    <main class="klaus-messages" id="klausMessages"></main>
+    <form class="klaus-input" id="klausForm">
+      <input type="text" id="klausField" name="message" placeholder="Type a message…" autocomplete="off" />
+      <button class="klaus-send" type="submit">Send</button>
+    </form>
+  </section>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.8/dist/purify.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+<script>
+// Configure marked with syntax highlighting + GFM + line breaks
+marked.setOptions({
+  gfm: true,
+  breaks: true,
+  mangle: false,
+  headerIds: false,
+  highlight: (code, lang) => hljs.highlightAuto(code, [lang]).value
 });
+
+// --- Helpers ---
+const emojiRE = /(\p{Extended_Pictographic}|\uFE0F)/gu;
+
+function normalizeMarkdown(text) {
+  let t = text;
+  t = t.replace(/^[ \t]*[•\u2022\u25CF\u25E6][ \t]+/gm, "- ");
+  t = t.replace(/:\s*-+\s+/g, ":\n- ").replace(/\s-\s+/g, "\n- ");
+  t = t.replace(/^\s*-\s*-\s+/gm, "- ");
+  t = t.replace(/([^\n])\n(-\s)/g, "$1\n\n$2");
+  return t;
+}
+
+function applyEmojiPolicy(text, userUsedEmoji, maxKeep = 2) {
+  if (!userUsedEmoji) return text.replace(emojiRE, "");
+  let kept = 0;
+  return text.replace(emojiRE, m => (++kept <= maxKeep ? m : ""));
+}
+
+function renderMarkdownSafe(text) {
+  const html = marked.parse(text);
+  const clean = DOMPurify.sanitize(html);
+  return clean.replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ');
+}
+
+// wrapper that applies all rules before rendering
+function renderBot(buffer, userUsedEmoji) {
+  const norm = normalizeMarkdown(buffer);
+  const withEmoji = applyEmojiPolicy(norm, userUsedEmoji, 2);
+  return renderMarkdownSafe(withEmoji);
+}
+
+(function () {
+  const toggle = document.getElementById('klausToggle');
+  const win = document.getElementById('klausWindow');
+  const closeBtn = document.getElementById('klausClose');
+  const clearBtn = document.getElementById('klausClear');
+  const form = document.getElementById('klausForm');
+  const field = document.getElementById('klausField');
+  const messages = document.getElementById('klausMessages');
+  const STORAGE_KEY = 'chatHistory';
+
+  let greeted = false;
+  let lastUserUsedEmoji = false; // 👈 track user emoji usage
+
+  function escapeHTML(str) {
+    return str.replace(/&/g, '&amp;')
+              .replace(/</g, '&lt;')
+              .replace(/>/g, '&gt;')
+              .replace(/"/g, '&quot;')
+              .replace(/'/g, '&#039;');
+  }
+
+  function scrollToBottom() {
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  function saveHistory() {
+    localStorage.setItem(STORAGE_KEY, messages.innerHTML);
+  }
+
+  function loadHistory() {
+    const html = localStorage.getItem(STORAGE_KEY);
+    if (html) {
+      messages.innerHTML = html;
+      scrollToBottom();
+    }
+  }
+
+  function bubble({ role, html, avatarText, avatarImg }) {
+    const wrap = document.createElement('div');
+    wrap.className = `klaus-msg ${role}`;
+
+    const avatar = document.createElement('div');
+    avatar.className = 'klaus-avatar';
+    if (avatarImg) {
+      const img = document.createElement('img');
+      img.src = avatarImg;
+      img.alt = role === 'bot' ? 'Klaus' : 'You';
+      avatar.appendChild(img);
+    } else {
+      avatar.textContent = avatarText || (role === 'bot' ? 'K' : 'You');
+    }
+
+    const bubble = document.createElement('div');
+    bubble.className = 'klaus-bubble';
+    bubble.innerHTML = html;
+
+    if (role === 'user') {
+      wrap.appendChild(bubble);
+      wrap.appendChild(avatar);
+    } else {
+      wrap.appendChild(avatar);
+      wrap.appendChild(bubble);
+    }
+
+    messages.appendChild(wrap);
+    scrollToBottom();
+  }
+
+  function showTyping() {
+    const wrap = document.createElement('div');
+    wrap.className = 'klaus-msg bot';
+
+    const avatar = document.createElement('div');
+    avatar.className = 'klaus-avatar';
+    const img = document.createElement('img');
+    img.src = 'https://img.icons8.com/ios-filled/50/62a6eb/chat.png';
+    img.alt = 'Klaus';
+    avatar.appendChild(img);
+
+    const bub = document.createElement('div');
+    bub.className = 'klaus-bubble';
+    bub.innerHTML = '<span class="klaus-typing"><span></span><span></span><span></span></span>';
+
+    wrap.appendChild(avatar);
+    wrap.appendChild(bub);
+    wrap.dataset.typing = '1';
+    messages.appendChild(wrap);
+    scrollToBottom();
+    return wrap;
+  }
+
+  function removeTyping(node) {
+    if (node && node.parentNode) node.parentNode.removeChild(node);
+  }
+
+  // Open/close
+  toggle.addEventListener('click', () => {
+    win.style.display = 'block';
+    loadHistory();
+    if (!greeted && !messages.innerHTML.includes('Welcome')) {
+      bubble({
+        role: 'bot',
+        html: renderMarkdownSafe('👋 **Hello there!** Welcome.\n\nHow can I assist you today?'),
+        avatarImg: 'https://img.icons8.com/ios-filled/50/62a6eb/chat.png'
+      });
+      saveHistory();
+      greeted = true;
+    }
+    field.focus();
+  });
+
+  closeBtn.addEventListener('click', () => { win.style.display = 'none'; });
+
+  clearBtn.addEventListener('click', () => {
+    if (confirm('Clear the chat history?')) {
+      messages.innerHTML = '';
+      localStorage.removeItem(STORAGE_KEY);
+      greeted = false;
+    }
+  });
+
+  // Submit
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const raw = field.value.trim();
+    if (!raw) return;
+
+    // Track if user used emoji
+    lastUserUsedEmoji = emojiRE.test(raw);
+
+    const safe = escapeHTML(raw);
+    bubble({ role: 'user', html: safe, avatarText: 'You' });
+    field.value = '';
+    saveHistory();
+
+    const typing = showTyping();
+    let buffer = "";
+
+    const es = new EventSource("/chatbot-stream/?message=" + encodeURIComponent(raw));
+
+    es.onmessage = (event) => {
+      if (event.data === "[DONE]") {
+        removeTyping(typing);
+        bubble({
+          role: "bot",
+          html: renderBot(buffer, lastUserUsedEmoji),
+          avatarImg: "https://img.icons8.com/ios-filled/50/62a6eb/chat.png"
+        });
+        saveHistory();
+        es.close();
+        return;
+      }
+      buffer += event.data;
+      typing.querySelector(".klaus-bubble").innerHTML = renderBot(buffer, lastUserUsedEmoji);
+      scrollToBottom();
+    };
+
+    es.onerror = () => {
+      removeTyping(typing);
+      bubble({
+        role: "bot",
+        html: "⚠️ Oops! Something went wrong.",
+        avatarImg: "https://img.icons8.com/ios-filled/50/62a6eb/chat.png"
+      });
+      es.close();
+    };
+  });
+})();
 </script>
+
+
+
 
 
 <!-- ========== End Contact ========== -->
