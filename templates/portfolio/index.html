@@ -664,9 +664,25 @@
   .klaus-msg.user .klaus-bubble::after { content: ""; position: absolute; right: -6px; bottom: 6px; border-width: 6px; border-style: solid; border-color: transparent transparent transparent var(--klaus-brand); }
 
   .klaus-input { display: flex; border-top: 1px solid var(--klaus-border); }
+  .klaus-input textarea {
+  flex: 1;
+  width: 100%;
+  border: none;
+  outline: none;
+  padding: 12px;
+  font-size: 14px;
+  background: transparent;
+  color: var(--klaus-text);
+  resize: none;
+  border-radius: 0 0 0 12px;
+}
   .klaus-input input { flex: 1; border: none; outline: none; padding: 12px; font-size: 14px; background: transparent; color: var(--klaus-text); }
-  .klaus-send { border: none; padding: 0 14px; font-weight: 700; background: var(--klaus-brand); color: #fff; cursor: pointer; }
-  .klaus-send:disabled { opacity: .6; cursor: not-allowed; }
+  .klaus-send { border: none; padding: 0 18px; font-weight: 700; background: var(--klaus-brand); color: #fff; cursor: pointer; border-radius: 0 0 12px 0; transition: background 0.2s, transform 0.2s, box-shadow 0.2s; }
+.klaus-send:hover, .klaus-send:focus {
+  background: #357dc0;
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 4px 16px rgba(98,166,235,0.18);
+}
 
   /* Typing indicator */
   .klaus-typing { display: inline-flex; gap: 4px; align-items: center; }
@@ -821,6 +837,22 @@
   margin: .8em 0;
 }
 
+.klaus-send {
+  border: none;
+  padding: 0 18px;
+  font-weight: 700;
+  background: var(--klaus-brand);
+  color: #fff;
+  cursor: pointer;
+  border-radius: 0 0 12px 0;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+.klaus-send:hover, .klaus-send:focus {
+  background: #357dc0;
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 4px 16px rgba(98,166,235,0.18);
+}
+
 </style>
 
 
@@ -842,7 +874,7 @@
     </header>
     <main class="klaus-messages" id="klausMessages"></main>
     <form class="klaus-input" id="klausForm">
-      <input type="text" id="klausField" name="message" placeholder="Type a message…" autocomplete="off" />
+      <textarea id="klausField" name="message" rows="1" placeholder="Type a message…" autocomplete="off" aria-label="Type your message"></textarea>
       <button class="klaus-send" type="submit">Send</button>
     </form>
   </section>
