@@ -210,7 +210,9 @@ $(function () {
 		return false;
 		
 	});
-
+    /**=========CHATBOT JS FILE HERE================*/
+    
+    
     /*========== Scroll To Top  ==========*/
     function scrollUp() {
         if (win.scrollTop() >= 1200) {
@@ -236,4 +238,32 @@ $(function () {
     /*========== Fire wow js Plugin  ==========*/
     new WOW().init();
     
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const scroller = document.querySelector('.services-scroller');
+    let scrollAmount = 1; // pixels per frame
+    let autoScroll;
+
+    function startAutoScroll() {
+        autoScroll = setInterval(() => {
+            if (scroller) {
+                if (scroller.scrollLeft + scroller.clientWidth >= scroller.scrollWidth) {
+                    scroller.scrollLeft = 0;
+                } else {
+                    scroller.scrollLeft += scrollAmount;
+                }
+            }
+        }, 16); // ~60fps
+    }
+
+    function stopAutoScroll() {
+        clearInterval(autoScroll);
+    }
+
+    if (scroller) {
+        startAutoScroll();
+        scroller.addEventListener('mouseenter', stopAutoScroll);
+        scroller.addEventListener('mouseleave', startAutoScroll);
+    }
 });

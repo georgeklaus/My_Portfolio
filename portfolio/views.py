@@ -188,6 +188,7 @@ def get_personalized_prompt():
         "  - Backend (Node.js, Express)\n" 
         "  - Mobile apps (Flutter)\n"
         "  -data science (Python, Pandas)\n"
+        "  -data analysits (Python, Pandas)\n"
         "  - IT support (fixing tech like a wizard)\n"
         "- **Projects**:\n"
         "  - [George Academy](https://my-portfolio-65kkm2rv5-georgeklaus-projects.vercel.app/) (sleek design)\n"

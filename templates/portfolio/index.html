@@ -106,47 +106,62 @@
         
         <!-- ========== End Home ========== -->
         
-        <!-- ========== Start About Me ========== -->
-    
-        <section class="about-me" id="about">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-5 col-md-6">
-                        <div class="about-image">
-                            <img class="img-responsive" src="{% static 'portfolio/images/about.jpg' %}" alt="">
-                        </div>
-                    </div>
-                    <div class="col-lg-7 col-md-6">
-                        <div class="about-info">
-                            <div class="main-title">
-                                <h2>About Me</h2>
-                                <span>01.</span>
-                            </div>
-                            <h3>Hello! I am George R Muthike</h3>
-                            <p>I'm a Freelance Web Designer &amp; Developer based in Nairobi, Kenya, and I'm very passionate and dedicated to my work .With 3 years experience as a professional Web Designer &amp; Developer, I have acquired the skills necessary to build great and premium websites.</p>
-                            <div class="personal-info">
-                                <p><span><i class="fa fa-user"></i></span>George R Muthike</p>
-                                <p><span><i class="fa fa-phone"></i></span>+254725717270</p>
-                                <p><span><i class="fa fa-envelope"></i></span>georgerubinga@gmail.com</p>
-                                <p><span><i class="fa fa-map-marker"></i></span>Nairobi, Kenya</p>
-                                <div class="social-media">
-                                    <span>
-                                        <a href="#"><i class="fab fa-facebook"></i></a>
-                                        <a href="#"><i class="fab fa-twitter"></i></a>
-                                        <a href="#"><i class="fab fa-instagram"></i></a>
-                                        <a href="#"><i class="fab fa-whatsapp"></i></a>
-                                        <a href="#"><i class="fab fa-linkedin"></i></a>
-                                    </span>
-                                </div>                                
-                            </div>
-                            <a href="{% static 'portfolio/files/CV.pdf' %}" class="main-btn" target="_blank">Download CV</a>
-                        </div>
-                    </div>
-                </div> 
+<!-- ========== Start About Me ========== -->
+<section class="about-me" id="about">
+    <div class="container">
+        <!-- align-items-stretch ensures equal column heights -->
+        <div class="row align-items-stretch">
+
+            <!-- Left side: video -->
+            <div class="col-lg-5 col-md-6 d-flex">
+                <div class="about-video" 
+                     style="flex:auto; padding:16px; background:linear-gradient(-50deg, rgba(170,170,170,.1) 45%, transparent 25%); box-shadow:0 0 10px rgba(0,0,0,.1); border-radius:20px; overflow:hidden;height: 100%;">
+                    <video autoplay muted loop playsinline
+                           style="width:100%; height:100%; object-fit:cover; border-radius:5px; display:block;">
+                        <source src="{% static 'portfolio/images/about-4.mp4' %}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
             </div>
-        </section>
-      
-        <!-- ========== End About Me ========== -->
+
+            <!-- Right side: info -->
+            <div class="col-lg-7 col-md-6 d-flex">
+                <div class="about-info" style="flex:1; display:flex; flex-direction:column; justify-content:center;">
+                    <div class="main-title">
+                        <h2>About Me</h2>
+                        <span>01.</span>
+                    </div>
+                    <h3>Hello! I am George R Muthike</h3>
+                    <p>
+                        I'm a Freelance Web Designer &amp; Developer based in Nairobi, Kenya, and I'm very passionate 
+                        and dedicated to my work. With 3 years experience as a professional Web Designer &amp; Developer, 
+                        I have acquired the skills necessary to build great and premium websites.
+                    </p>
+                    <div class="personal-info">
+                        <p><span><i class="fa fa-user"></i></span>George R Muthike</p>
+                        <p><span><i class="fa fa-phone"></i></span>+254725717270</p>
+                        <p><span><i class="fa fa-envelope"></i></span>georgerubinga@gmail.com</p>
+                        <p><span><i class="fa fa-map-marker"></i></span>Nairobi, Kenya</p>
+                        <div class="social-media">
+                            <span>
+                                <a href="#"><i class="fab fa-facebook"></i></a>
+                                <a href="#"><i class="fab fa-twitter"></i></a>
+                                <a href="#"><i class="fab fa-instagram"></i></a>
+                                <a href="#"><i class="fab fa-whatsapp"></i></a>
+                                <a href="#"><i class="fab fa-linkedin"></i></a>
+                            </span>
+                        </div>
+                    </div>
+                    <a href="{% static 'portfolio/files/CV.pdf' %}" class="main-btn" target="_blank">Download CV</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<!-- ========== End About Me ========== -->
+
+
        
    <!-- ========== Start Services ========== -->
        
