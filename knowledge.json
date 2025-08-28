@@ -1,0 +1,123 @@
+{
+  "about": {
+    "name": "George R. Muthike",
+    "bio": "Passionate and results-oriented Web Designer and Developer with 3+ years of experience delivering premium, user-centered websites and applications. Based in Nairobi, Kenya, George specializes in scalable, responsive, and visually appealing digital solutions."
+  },
+  "skills": {
+    "technical": [
+      "HTML5, CSS3, JavaScript, PHP",
+      "Django Framework",
+      "MySQL, PostgreSQL, SQL Server, SQLite",
+      "WordPress customization & deployment",
+      "Machine Learning: scikit-learn, pandas, NumPy, seaborn, matplotlib"
+    ],
+    "professional": [
+      "Data Analysis with SQL, Python (pandas), and Excel",
+      "Project Management",
+      "Content Writing & Technical Writing"
+    ],
+    "soft": [
+      "Excellent communication & teamwork",
+      "Self-motivation & adaptability",
+      "Analytical & problem-solving"
+    ],
+    "in_progress": [
+      "E-commerce Development with Django",
+      "Mobile App Development (Dart & Flutter)"
+    ]
+  },
+  "experience": [
+    {
+      "role": "Web Developer",
+      "company": "Power Learn Academy",
+      "years": "2023",
+      "desc": [
+        "Designed and deployed responsive websites tailored to client needs.",
+        "Optimized performance, reducing load times by 30%.",
+        "Collaborated with cross-functional teams to deliver scalable solutions."
+      ]
+    },
+    {
+      "role": "Data Analyst",
+      "company": "Freelance / Projects",
+      "years": "2022–2023",
+      "desc": [
+        "Conducted analysis using Python and SQL, identifying critical trends.",
+        "Built dashboards & visualizations for stakeholders.",
+        "Improved efficiency of reporting processes by 25%."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "degree": "BSc Information Technology (Ongoing)",
+      "institution": "Multimedia University of Kenya",
+      "focus": [
+        "Networking",
+        "Database Management",
+        "Software Development"
+      ]
+    },
+    {
+      "degree": "Certification in Technical Writing",
+      "institution": "AIRANDS College",
+      "years": "2022–2023",
+      "desc": "Advanced training in research and analytical writing."
+    },
+    {
+      "degree": "Web Development Program",
+      "institution": "Power Learn Academy",
+      "year": "2023",
+      "desc": "Designed and deployed websites with strong focus on responsiveness and optimization."
+    }
+  ],
+  "projects": [
+    {
+      "name": "Portfolio Website",
+      "url": "https://georgeklaus.vercel.app",
+      "desc": "Personal portfolio showcasing skills, projects, and blog."
+    },
+    {
+      "name": "STEM Education Website",
+      "url": "#",
+      "desc": "A site for inspiring students through STEM education."
+    },
+    {
+      "name": "Expense Tracker App",
+      "url": "#",
+      "desc": "Tracks daily expenses with charts and visual summaries."
+    },
+    {
+      "name": "RippleCrest Sports Website",
+      "url": "#",
+      "desc": "Sports platform for students."
+    },
+    {
+      "name": "Cleaning Services Website",
+      "url": "#",
+      "desc": "Corporate cleaning services platform."
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Certification in Technical Writing",
+      "institution": "AIRANDS College",
+      "year": 2023
+    },
+    {
+      "name": "Web Development Program",
+      "institution": "Power Learn Academy",
+      "year": 2023
+    }
+  ],
+  "contact": {
+    "email": "georgerubinga@gmail.com",
+    "phone": "+254725717270",
+    "location": "Nairobi, Kenya",
+    "github": "https://github.com/georgeklaus",
+    "portfolio": "https://georgeklaus.vercel.app",
+    "linkedin": "https://linkedin.com/in/YOUR_LINK"
+  },
+  "languages": ["English", "Swahili"],
+  "hobbies": ["Technology exploration", "Content creation", "Aviation trends"]
+}

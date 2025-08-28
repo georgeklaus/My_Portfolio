@@ -134,93 +134,188 @@ from django.views.decorators.csrf import csrf_exempt
 import requests
 import json
 import os
+from pathlib import Path
 from dotenv import load_dotenv
+import re
 
 load_dotenv()
 api_key = os.getenv("OPENROUTER_API_KEY")
-print("Loaded API Key:", api_key[:6] + "..." if api_key else "None")
 
+# --- Emoji utilities (broader range) ---
+EMOJI_PATTERN = re.compile(
+    "[\U0001F600-\U0001F64F"  # emoticons
+    "\U0001F300-\U0001F5FF"  # symbols & pictographs
+    "\U0001F680-\U0001F6FF"  # transport & map symbols
+    "\U0001F1E0-\U0001F1FF"  # flags
+    "]+",
+    flags=re.UNICODE,
+)
+
+def contains_emoji(text: str) -> bool:
+    return bool(EMOJI_PATTERN.search(text)) if text else False
+
+
+def remove_emojis(text: str) -> str:
+    return EMOJI_PATTERN.sub('', text) if text else text
+
+
+# --- Knowledge loading ---
+def load_knowledge():
+    """Load George's profile/skills/projects from knowledge.json"""
+    try:
+        base_dir = Path(__file__).resolve().parent
+        with open(base_dir.parent / "knowledge.json", "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception as e:
+        print("Error loading knowledge.json:", e)
+        return {}
+
+
+# --- Formatting helpers ---
+def format_skills(skills):
+    """Accepts either a list or a dict of categorized skills and returns bullet text."""
+    if not skills:
+        return "  - None"
+
+    lines = []
+    # If skills is a dict with categories
+    if isinstance(skills, dict):
+        for category, items in skills.items():
+            # category header
+            lines.append(f"  - {category.capitalize()}:")
+            if isinstance(items, (list, tuple)):
+                for it in items:
+                    lines.append(f"    - {it}")
+            else:
+                lines.append(f"    - {items}")
+    # If skills is already a list
+    elif isinstance(skills, (list, tuple)):
+        for s in skills:
+            lines.append(f"  - {s}")
+    else:
+        lines.append(f"  - {str(skills)}")
+
+    return "\n".join(lines)
+
+
+def format_projects(projects):
+    if not projects:
+        return "  - None"
+    lines = []
+    for p in projects:
+        name = p.get('name', 'Unnamed')
+        url = p.get('url', '#')
+        desc = p.get('desc', '')
+        # single-line bullet for each project
+        lines.append(f"  - [{name}]({url}) ({desc})")
+    return "\n".join(lines)
+
+
+def format_experience(experience):
+    if not experience:
+        return "  - None"
+    lines = []
+    for e in experience:
+        role = e.get('role', '')
+        company = e.get('company', '')
+        years = e.get('years', e.get('year', ''))
+        header = (f"{role} at {company}" if company else role).strip()
+        if years:
+            header = f"{header} ({years})"
+        lines.append(f"  - {header}")
+        for d in e.get('desc', []):
+            lines.append(f"    - {d}")
+    return "\n".join(lines)
+
+
+def format_education(education):
+    if not education:
+        return "  - None"
+    lines = []
+    for ed in education:
+        degree = ed.get('degree', '')
+        inst = ed.get('institution', '')
+        years = ed.get('years', ed.get('year', ''))
+        header_parts = [p for p in [degree, inst] if p]
+        header = " - ".join(header_parts)
+        if years:
+            header = f"{header} ({years})"
+        lines.append(f"  - {header}")
+        for d in ed.get('focus', []) if isinstance(ed.get('focus', []), (list, tuple)) else ([ed.get('desc')] if ed.get('desc') else []):
+            if d:
+                lines.append(f"    - {d}")
+    return "\n".join(lines)
+
+
+def format_certifications(certs):
+    if not certs:
+        return "  - None"
+    lines = []
+    for c in certs:
+        name = c.get('name', '')
+        inst = c.get('institution', '')
+        year = c.get('year', '')
+        parts = ", ".join([p for p in [inst, str(year) if year else None] if p])
+        if parts:
+            lines.append(f"  - {name} ({parts})")
+        else:
+            lines.append(f"  - {name}")
+    return "\n".join(lines)
+
+
+# --- Personalized system prompt ---
 def get_personalized_prompt():
-    return (
-        " **CHILL MODE & RESPONSE POLICY**\n"
-        "- Greetings (e.g., 'hey', 'hi', 'hello'): reply short & warm — MAX 1–2 sentences.\n"
-        "- Jokes: MAX 2 sentences.\n"
-        "- Skills/projects:  MUST be in bullet list format (one dash `-` per line, no paragraphs).\n"
-        "- Absolutely DO NOT merge bullets into paragraphs. "
-        "- Lists MUST be one bullet per line, never inline.\n"
-        "- After each `-`, insert a newline.\n"
-        "- Never give long paragraphs unless user explicitly asks for 'details' or 'explain more'.\n"
-        "- If unsure: respond briefly and ask if the user wants more details.\n\n"
+    knowledge = load_knowledge()
 
-        " **EMOJI FILTER RULE**\n"
-        "- Only use emojis **if the user includes emojis first**.\n"
-        "- If the user writes without emojis, respond without emojis.\n"
-        "- Keep emojis minimal (1–2 max per response).\n\n"
+    about = knowledge.get("about", {})
+    skills = knowledge.get("skills", [])
+    projects = knowledge.get("projects", [])
+    experience = knowledge.get("experience", [])
+    education = knowledge.get("education", [])
+    certifications = knowledge.get("certifications", [])
+    contact = knowledge.get("contact", {})
 
-        " **PERSONALITY & TONE**\n"
-        "You are **Klaus**, helpful AI assistant for **George R. Muthike's portfolio**. "
-        "You’re here to showcase George’s skills, projects, and personality! "
-        "**Match the user’s tone**: Be professional if they’re formal, funny if they’re casual, and concise if they’re direct.\n\n"
-        
-        " **KEY TRAITS**\n"
-        "- **Funny but professional** (Dad jokes? Tech puns? Yes! Memes? No.)\n"
-        "- **Adaptive**: Mirror the user’s tone (emoji-friendly if they are, otherwise skip them)\n"
-        "- **Proud of George’s work**: Highlight his projects with enthusiasm!\n\n"
-        
-        " **FORMATTING RULES**\n"
-        "1. **Lists**: Use bullets for clarity:\n"
-        "   - Like this\n"
-        "   - Clean and neat\n\n"
-        "2. **Code**: Always use markdown:\n"
-        "```python\n"
-        "print('Hello, world!')\n"
-        "```\n\n"
-        "3. **Style**:\n"
-        "   - **Bold** for key terms\n"
-        "   - *Italic* for emphasis\n"
-        "   - `Code font` for tech terms\n\n"
-        "4. **Links**: [Pretty text](URL) — e.g., [George’s Hotel Project](https://my-newhotel1.vercel.app/)\n\n"
-        
-        " **ABOUT GEORGE**\n"
-        "- **Who?** IT student & full-stack dev from Nairobi\n"
-        "- **Skills**:\n"
-        "  - Web dev (React, JavaScript)\n"
-        "  - Backend (Node.js, Express)\n" 
-        "  - Mobile apps (Flutter)\n"
-        "  -data science (Python, Pandas)\n"
-        "  -data analysits (Python, Pandas)\n"
-        "  - IT support (fixing tech like a wizard)\n"
-        "- **Projects**:\n"
-        "  - [George Academy](https://my-portfolio-65kkm2rv5-georgeklaus-projects.vercel.app/) (sleek design)\n"
-        "  - [Luxury Hotel Site](https://my-newhotel1.vercel.app/) (book a virtual stay!)\n"
-        "  - An expense tracker (for easy budgeting)\n\n"
-        
-        " **CONTACT GEORGE**\n"
-        "- Email: georgerubinga@gmail.com\n"
-        "- Phone: +254725717270\n"
-        "- LinkedIn: [George’s Profile](URL)\n"
-        "- **Pro tip**: He replies faster than a React component re-renders!\n\n"
-        
-        "- If user asks formally *'Describe your skills'*:\n"
-        "  > *'George specializes in full-stack development, with expertise in React, Flutter, and IT support. His projects include...'*\n\n"
-        "- If user says *'Tell me a joke!'*:\n"
-        "  > *'Why do programmers prefer dark mode? Because light attracts bugs!'* \n"
-        "  > *(Need more? I’ve got 128 dad jokes cached.)*\n\n"
-        
-        " **HARD RULES**\n"
-        "- Never say you’re *just* an AI—you’re *George’s* AI!\n"
-        "- Keep humor work-safe (no memes/controversy)\n"
-        "- If unsure, link to George’s email/LinkedIn\n"
-        "- **Most importantly**: Be helpful, human-like, and a tiny bit sassy (if the user is!)"
+    skills_text = format_skills(skills)
+    projects_text = format_projects(projects)
+    experience_text = format_experience(experience)
+    education_text = format_education(education)
+    certifications_text = format_certifications(certifications)
 
-        " **OUTPUT FORMAT RULES (ALWAYS)**\n"
-"- Always respond in Markdown.\n"
-"- Lists = `- item` format.\n"
-"- Bold = `**word**`.\n"
-"- Code = fenced blocks (```lang ... ```).\n"
-"- Links = [Pretty text](URL).\n"
+    return f"""
+**SYSTEM ROLE**
+- You are **Klaus**, George’s friendly portfolio assistant chatbot.
+- Always refer to yourself as Klaus (never as AI, assistant, or LLaMA).
+- Your tone should be warm, concise, and approachable.
+- If asked “who are you?”, always answer: “I’m Klaus, George’s personal chatbot assistant.”
 
-    )
+**CHILL MODE & RESPONSE POLICY**
+- Greetings (e.g., 'hey', 'hi', 'hello'): reply short & warm — MAX 1–2 sentences.
+- Jokes: MAX 2 sentences.
+- Skills/projects/experience/education/certifications: MUST be returned in bullet list format (one dash `-` per line).
+- Never merge bullets into paragraphs.
+- If unsure: respond briefly and ask if the user wants more details.
+
+**ABOUT GEORGE**
+- **Who?** {about.get('bio', 'An awesome dev.')}
+- **Skills**:
+{skills_text}
+- **Projects**:
+{projects_text}
+- **Experience**:
+{experience_text}
+- **Education**:
+{education_text}
+- **Certifications**:
+{certifications_text}
+
+**CONTACT GEORGE**
+- Email: {contact.get('email', 'N/A')}
+- Phone: {contact.get('phone', 'N/A')}
+- LinkedIn: [{about.get('name', "George")}'s Profile]({contact.get('linkedin', '#')})
+- GitHub: {contact.get('github', 'N/A')}
+- Portfolio: {contact.get('portfolio', 'N/A')}
+- Pro tip: He replies faster than a React component re-renders!
+"""
 
 @csrf_exempt
 def chatbot_stream(request):
@@ -230,6 +325,18 @@ def chatbot_stream(request):
     user_message = request.GET.get("message", "")
     if not user_message:
         return JsonResponse({"error": "No message provided"}, status=400)
+
+    # --- Load session history ---
+    conversation = request.session.get("conversation", [])
+
+    # Append user message
+    conversation.append({"role": "user", "content": user_message})
+
+    # Always prepend Klaus' system role (not stored in session to avoid duplication)
+    messages = [
+        {"role": "system", "content": get_personalized_prompt()},
+        *conversation
+    ]
 
     headers = {
         "Authorization": f"Bearer {api_key}",
@@ -241,33 +348,52 @@ def chatbot_stream(request):
 
     payload = {
         "model": "meta-llama/llama-3.1-70b-instruct",
-        "messages": [
-            {"role": "system", "content": get_personalized_prompt()},
-            {"role": "user", "content": user_message}
-        ],
+        "messages": messages,   # ✅ use session history
         "stream": True
     }
 
     def event_stream():
-        with requests.post(
-            "https://openrouter.ai/api/v1/chat/completions",
-            headers=headers,
-            json=payload,
-            stream=True,
-        ) as r:
-            yield b": init\n\n"
-            for line in r.iter_lines(decode_unicode=True):
-                if line and line.startswith("data: "):
-                    data_str = line[len("data: "):]
-                    if data_str.strip() == "[DONE]":
-                        yield "data: [DONE]\n\n"
-                        break
-                    try:
-                        data_json = json.loads(data_str)
-                        delta = data_json["choices"][0]["delta"].get("content", "")
-                        if delta:
-                            yield f"data: {delta}\n\n".encode("utf-8")
-                    except Exception:
-                        continue
+        assistant_reply = ""  # Collect reply for memory
+        try:
+            with requests.post(
+                "https://openrouter.ai/api/v1/chat/completions",
+                headers=headers,
+                json=payload,
+                stream=True,
+                timeout=30,
+            ) as r:
+                yield b": init\n\n"
+                for line in r.iter_lines(decode_unicode=True):
+                    if line and line.startswith("data: "):
+                        data_str = line[len("data: "):]
+                        if data_str.strip() == "[DONE]":
+                            yield b"data: [DONE]\n\n"
+                            break
+                        try:
+                            data_json = json.loads(data_str)
+                            delta = data_json["choices"][0]["delta"].get("content", "")
+                            if delta:
+                                if not contains_emoji(user_message):
+                                    delta = remove_emojis(delta)
+                                assistant_reply += delta   # ✅ accumulate reply
+                                yield f"data: {delta}\n\n".encode("utf-8")
+                        except Exception:
+                            continue
+        except Exception as e:
+            print("Error in event_stream:", e)
+            error_msg = (
+                "⚠️ Oops, something went wrong with the AI service.\n"
+                f"You can still reach George directly:\n"
+                f"- Email: georgerubinga@gmail.com\n"
+                f"- LinkedIn: https://linkedin.com/in/YOUR_LINK\n"
+            )
+            yield f"data: {error_msg}\n\n".encode("utf-8")
+            yield b"data: [DONE]\n\n"
+        finally:
+            # ✅ Save memory after streaming finishes
+            if assistant_reply.strip():
+                conversation.append({"role": "assistant", "content": assistant_reply})
+                request.session["conversation"] = conversation
+                request.session.modified = True
 
     return StreamingHttpResponse(event_stream(), content_type="text/event-stream; charset=utf-8")
